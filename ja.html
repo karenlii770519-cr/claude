@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Karen Li 職務経歴</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="李 佳晏（Karen Li）アートディレクター。ゲームIPコラボ、日本市場向け広告、AI・業務自動化。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@600;900&family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@400;600&display=swap">
+<style>
+/* 面向三：日本の採用ご担当者様 — 和文組版、余白多め、明朝の見出し＋縦書き */
+:root{
+  --orange:#F7942E;--orange-deep:#D9700E;--paper:#FBF9F6;--ink:#262220;--muted:#7A736E;--line:#E6DED5;--white:#fff;
+  --mincho:"Zen Old Mincho","Hiragino Mincho ProN",serif;
+  --gothic:"Noto Sans JP","Hiragino Sans",sans-serif;
+  --en:"Outfit","Noto Sans JP",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--gothic);font-size:15.5px;line-height:1.95;letter-spacing:.03em;font-feature-settings:"palt"}
+a{color:inherit}
+img{max-width:100%;display:block}
+.in{width:min(1040px,100% - 40px);margin:0 auto}
+
+.bar .in{display:flex;justify-content:space-between;align-items:center;height:68px;gap:12px;border-bottom:1px solid var(--line)}
+.back{font-family:var(--en);font-weight:600;font-size:13px;letter-spacing:.1em;text-decoration:none;color:var(--orange-deep)}
+.facets{display:flex;gap:4px;font-size:12.5px}
+.facets a{text-decoration:none;padding:6px 12px;border-radius:999px}
+.facets a[aria-current]{background:var(--ink);color:var(--white)}
+@media (max-width:560px){.facets a:not([aria-current]){display:none}}
+
+/* 表紙 */
+.cover .in{display:grid;grid-template-columns:auto 1fr auto;gap:56px;align-items:center;padding:80px 0 72px;border-bottom:1px solid var(--line)}
+.tate{writing-mode:vertical-rl;font-family:var(--mincho);font-weight:900;font-size:clamp(36px,4.4vw,52px);letter-spacing:.3em;margin:0;line-height:1.2;border-right:3px solid var(--orange);padding-right:16px}
+.who .role{font-family:var(--en);letter-spacing:.24em;font-size:12px;color:var(--orange-deep);margin:0 0 10px}
+.who h1{margin:0 0 4px;font-family:var(--mincho);font-weight:900;font-size:clamp(28px,3.4vw,40px);letter-spacing:.12em}
+.who h1 small{font-family:var(--en);font-weight:400;font-size:.45em;letter-spacing:.08em;color:var(--muted);margin-left:12px}
+.who p{margin:18px 0 0;max-width:32em}
+.who dl{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin:24px 0 0;font-size:14px}
+.who dt{color:var(--muted)}
+.who dd{margin:0}
+.who dd a{color:var(--orange-deep)}
+.portrait{width:180px;border-radius:50%;border:6px solid var(--white);box-shadow:0 8px 30px rgba(0,0,0,.06)}
+@media (max-width:860px){.cover .in{grid-template-columns:1fr;gap:28px}.tate{writing-mode:horizontal-tb;border-right:0;border-bottom:3px solid var(--orange);padding:0 0 10px;letter-spacing:.2em;justify-self:start}.portrait{width:120px;grid-row:1;justify-self:end;margin-bottom:-90px}}
+
+/* 見出し */
+section{padding:72px 0;border-bottom:1px solid var(--line)}
+.sec{display:grid;grid-template-columns:180px 1fr;gap:40px}
+.sec>h2{margin:0;font-family:var(--mincho);font-weight:900;font-size:22px;letter-spacing:.16em;position:relative;padding-top:18px}
+.sec>h2::before{content:"";position:absolute;top:0;left:0;width:28px;height:3px;background:var(--orange)}
+.sec>h2 span{display:block;font-family:var(--en);font-weight:400;font-size:11px;letter-spacing:.24em;color:var(--muted);margin-top:4px}
+@media (max-width:760px){.sec{grid-template-columns:1fr;gap:24px}}
+
+.sum p{margin:0 0 1em}
+.skills{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:0 32px}
+.skills li{padding:12px 0 12px 22px;border-bottom:1px dotted var(--line);position:relative}
+.skills li::before{content:"";position:absolute;left:2px;top:23px;width:8px;height:8px;border:2px solid var(--orange);border-radius:50%}
+.tools{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}
+.tools span{font-family:var(--en);font-size:13px;border:1px solid var(--ink);border-radius:4px;padding:2px 10px}
+@media (max-width:640px){.skills{grid-template-columns:1fr}}
+
+/* 職務経歴 */
+.jobs{display:grid;gap:0}
+.job{display:grid;grid-template-columns:150px 1fr;gap:28px;padding:32px 0;border-top:1px solid var(--line)}
+.job:first-child{border-top:0;padding-top:0}
+.job time{font-family:var(--en);font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;line-height:1.7}
+.job time b{display:block;color:var(--orange-deep);font-weight:600;font-size:15px}
+.job h3{margin:0;font-family:var(--mincho);font-weight:900;font-size:20px;letter-spacing:.06em}
+.job .pos{margin:2px 0 14px;font-size:13.5px;color:var(--muted)}
+.job h4{margin:18px 0 6px;font-size:13px;font-weight:700;color:var(--orange-deep);letter-spacing:.12em}
+.job ul{margin:0;padding-left:1.2em}
+.job li{margin:2px 0}
+.job li::marker{color:var(--orange)}
+@media (max-width:640px){.job{grid-template-columns:1fr;gap:6px}}
+
+.edu{list-style:none;margin:0;padding:0}
+.edu li{display:grid;grid-template-columns:150px 1fr;gap:28px;padding:10px 0;border-bottom:1px dotted var(--line)}
+.edu li span:first-child{font-family:var(--en);color:var(--muted);font-size:14px}
+@media (max-width:640px){.edu li{grid-template-columns:1fr;gap:0}}
+
+.pr{font-size:16px;line-height:2.1}
+.pr p{margin:0 0 1.2em}
+.pr .lead{font-family:var(--mincho);font-weight:900;font-size:clamp(19px,2vw,23px);line-height:1.8;letter-spacing:.06em;border-left:3px solid var(--orange);padding-left:18px}
+
+.contact{border-bottom:0;text-align:center;padding:88px 0 110px}
+.contact h2{font-family:var(--mincho);font-weight:900;font-size:clamp(22px,2.6vw,30px);letter-spacing:.14em;margin:0 0 10px}
+.contact p{color:var(--muted);margin:0 0 26px}
+.mail{display:inline-block;border:1.5px solid var(--ink);padding:14px 30px;text-decoration:none;font-family:var(--en);letter-spacing:.06em;word-break:break-all}
+.mail:hover{background:var(--ink);color:var(--white)}
+a:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+footer{background:var(--ink);color:#CFC8C2;padding:28px 0;font-family:var(--en);font-size:12.5px;letter-spacing:.08em}
+@media print{.bar,footer,.contact{display:none}section{padding:28px 0}body{font-size:12px}}
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="in">
+  <a class="back" href="index.html">← KAREN LI</a>
+  <nav class="facets" aria-label="ページ切替">
+    <a href="hire.html" lang="zh-Hant">企業・代理商</a>
+    <a href="merch.html" lang="zh-Hant">個人周邊設計</a>
+    <a href="ja.html" aria-current="page">日本語</a>
+  </nav>
+</div></div>
+
+<header class="cover"><div class="in">
+  <p class="tate">職務経歴</p>
+  <div class="who">
+    <p class="role">ART DIRECTOR</p>
+    <h1>李 佳晏<small>Karen Li</small></h1>
+    <p>ゲームIPコラボ・販促ビジュアル・日本市場向け広告を中心に、台湾と日本で13年。企画からライセンサー監修、印刷入稿まで一貫して担当します。</p>
+    <dl>
+      <dt>連絡先</dt><dd><a href="mailto:karen770519@icloud.com">karen770519@icloud.com</a></dd>
+      <dt>拠点</dt><dd>台湾（日本語でのやり取り可）</dd>
+    </dl>
+  </div>
+  <img class="portrait" src="img/avatar.jpg" alt="Karen のイラスト似顔絵">
+</div></header>
+
+<main>
+  <section><div class="in sec">
+    <h2>職務要約<span>SUMMARY</span></h2>
+    <div class="sum">
+      <p>10年以上、デザイナー／アートディレクターとして経験を積んできました。BANDAI NAMCOではゲーム・アプリの日本市場向けローカライズを担当しました。日系企業では販促キャンペーンとライセンス商品の企画・デザインを手がけ、株式会社CyberZ（CyberAgentグループ）では日本市場向けスマートフォン広告を担当しました。</p>
+      <p>現在は台湾の広告代理店OFFERME2でアートディレクターを務めています。ゲームIPとのコラボカフェ・ポップアップストアの店舗デザイン、グッズ、オンライン・オフライン統合広告を担当しています。あわせて、AI画像合成とGoogle Apps Scriptを使ったデザイン部門の業務効率化にも取り組んでいます。</p>
+    </div>
+  </div></section>
+
+  <section><div class="in sec">
+    <h2>スキル<span>SKILLS</span></h2>
+    <div>
+      <ul class="skills">
+        <li>IPコラボ案件の企画・デザイン、ライセンサー監修への対応</li>
+        <li>日本市場向け広告制作（日本語の組版、和文フォント選定、レイアウトバランス）</li>
+        <li>店舗装飾・販促ツール・グッズの印刷入稿まで含めた一貫制作</li>
+        <li>KV・バナー展開、OOH（交通広告・駅広告）の多サイズ展開</li>
+        <li>LP・Webサイトの企画・デザイン・コーディング（レスポンシブ対応）</li>
+        <li>AI画像合成（商品合成、人物処理、AIキャラクター動画）</li>
+        <li>Google Apps Scriptによる業務自動化（タスク管理、ガントチャート、週報）</li>
+        <li>ショート動画編集、SNS運用、データ分析</li>
+      </ul>
+      <div class="tools"><span>Photoshop</span><span>Illustrator</span><span>After Effects</span><span>Figma</span><span>HTML/CSS</span><span>Google Apps Script</span></div>
+    </div>
+  </div></section>
+
+  <section><div class="in sec">
+    <h2>職務経歴<span>CAREER</span></h2>
+    <div class="jobs">
+      <article class="job">
+        <time><b>2025.02 —</b>現在</time>
+        <div>
+          <h3>OFFERME2（広告代理店）</h3>
+          <p class="pos">アートディレクター</p>
+          <ul>
+            <li>ゲームIPとのコラボカフェ・ポップアップストアの店舗デザイン</li>
+            <li>IPグッズのデザイン</li>
+            <li>オンライン・オフライン統合広告、SNS素材の制作</li>
+            <li>デザイン部門の業務フロー構築</li>
+          </ul>
+          <h4>主な実績</h4>
+          <ul>
+            <li>アークナイツ × 「好想」（2025年9月）、× かつや（台湾名：吉豚屋）、× 「麵匡匡」（3店舗＋Uber Eats版）のコラボ店舗ビジュアル</li>
+            <li>アズールレーン 飲食コラボ：吉豚屋（2024）→ 老先覺（2025）→ 涮乃葉（2026）</li>
+            <li>パニシング：グレイレイヴン × 一風堂：ポスター、メニュー、スタンディ、ルーレット、テイクアウト容器、オンライン素材</li>
+            <li>シャドウバース（Cygames）：台湾北・中・南部巡回イベントのビジュアル一式（スタンディ、手持ちボード、メッセージウォール、カップ、キーホルダー、スタッフ証）</li>
+            <li>ブルーアーカイブ 学園祭グッズ（クリアカード、アクリルチャーム、ミニカード、ギターピック）</li>
+            <li>マビノギ英雄伝 新作（NEXON）：KVおよびキャラクターの複数方向性の提案</li>
+            <li>ゲームバナー：ブラウンダスト2（3周年）、シャドウバース、UNDAWN、Racing Master、五等分の花嫁、Civilization（2K）</li>
+            <li>OOH：鳴潮（台湾北・中・南部）、JR山手線ホーム広告</li>
+            <li>ブランド案件：Ricola × IU 台北MRT広告、Dermacept 高級スキンケアのKV（AI商品合成・人物処理）、メンソレータム・馬修嚴選・王品グループ「莆田」・台湾三洋電機のSNS素材、自社カタログの日中韓3言語ローカライズ</li>
+            <li>業務効率化：LINE発注ボット、タスクボード、ガントチャート、自動週報をGASで構築。AIキャラクターのプロモーション動画を制作。台湾全土のOOH媒体マップサイトを制作</li>
+          </ul>
+        </div>
+      </article>
+      <article class="job">
+        <time><b>2023.11 —</b>2025.02</time>
+        <div>
+          <h3>フリーランス</h3>
+          <p class="pos">デザイナー／アートディレクター</p>
+          <ul>
+            <li>台湾三洋電機：エアコンキャンペーンのLP、カタログ表紙、バナー（撮影時のポージング指示を含む）</li>
+            <li>菲瑞雅（システム家具）：公式サイトの企画・デザイン・レスポンシブコーディング（約2週間）</li>
+            <li>味王：パッケージ2件（菱角農会とのコラボ商品、女性向け高たんぱくスナック）。企画・商品撮影・デザインを担当</li>
+            <li>不動産広告：OOH、公式サイト、バナー、店頭POP、モデルルーム向けパンフレット（高級紙＋イラストマップ）</li>
+          </ul>
+        </div>
+      </article>
+      <article class="job">
+        <time><b>2018.09 —</b>2023.11</time>
+        <div>
+          <h3>株式会社CyberZ</h3>
+          <p class="pos">CyberAgentグループ／スマートフォン広告事業　デザイナー</p>
+          <ul>
+            <li>スマートフォン広告バナーの制作</li>
+            <li>在籍後半の2年間は日本市場向け日本語広告を専任で担当（Pairs、MANARA、minimo、chocoZAP など）</li>
+          </ul>
+        </div>
+      </article>
+      <article class="job">
+        <time><b>2016.11 —</b>2018.05</time>
+        <div>
+          <h3>株式会社ブランズワーク</h3>
+          <p class="pos">プランナー兼デザイナー</p>
+          <ul>
+            <li>ノベルティキャンペーンの企画から制作までを一人で担当</li>
+            <li>ライセンス商品の提案、企画書作成、デザイン、ライセンサー監修への対応</li>
+            <li>パッケージ・陳列什器の取りまとめ</li>
+          </ul>
+        </div>
+      </article>
+      <article class="job">
+        <time><b>2012.08 —</b>2016.08</time>
+        <div>
+          <h3>BANDAI NAMCO</h3>
+          <p class="pos">デザイナー</p>
+          <ul>
+            <li>ゲーム・アプリの日本市場向けローカライズ（ビジュアル・テキスト）</li>
+            <li>オンライン・オフラインイベントの企画・デザイン（会場装飾、LP、SNS素材）</li>
+            <li>バナー、DM、陳列什器、Webサイトの制作</li>
+            <li>SNS運用およびデータ分析、ショート動画制作</li>
+            <li>台湾・日本両市場向けのWebマーケティング</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div></section>
+
+  <section><div class="in sec">
+    <h2>学歴・語学<span>EDUCATION</span></h2>
+    <ul class="edu">
+      <li><span>2006 — 2009</span><span>樹徳科技大学 視覚伝達デザイン学科</span></li>
+      <li><span>2003 — 2006</span><span>育達高級職業学校 広告デザイン科</span></li>
+      <li><span>中国語</span><span>ネイティブ（繁体字）</span></li>
+      <li><span>日本語</span><span>日本市場向け広告の日本語組版・コピー対応の実務経験あり</span></li>
+    </ul>
+  </div></section>
+
+  <section><div class="in sec">
+    <h2>自己PR<span>STRENGTHS</span></h2>
+    <div class="pr">
+      <p class="lead">私の強みは、IPホルダーの監修に応えられる品質管理と、日本市場向けの制作経験です。</p>
+      <p>日系企業ではライセンス商品の企画書作成からデザイン、ライセンサー監修への対応までを一人で担当しました。現職では、アークナイツ、アズールレーン、シャドウバースなどのIPコラボ案件で、店舗装飾からグッズ、販促物の入稿までを手がけています。キャラクターの扱いや色味、表記ルールなど、権利元が重視するポイントを踏まえて進行し、修正の手戻りを減らすことを心がけてきました。</p>
+      <p>株式会社CyberZでは、2年間にわたり日本市場向け広告を専任で担当しました。和文フォントの選び方や日本語特有のレイアウトバランスを実務で身につけています。</p>
+      <p>また、AI画像合成による商品ビジュアル制作に加え、Google Apps Scriptを使ってデザイン部門の発注・進行管理・週報を自動化しました。チーム全体が制作に集中できる環境づくりにも取り組んでいます。</p>
+      <p>これらの経験を生かし、品質とスピードの両面で貴社に貢献したいと考えております。</p>
+    </div>
+  </div></section>
+
+  <section class="contact"><div class="in">
+    <h2>お問い合わせ</h2>
+    <p>ご質問・面談のご依頼は、メールにてお気軽にご連絡ください。</p>
+    <a class="mail" href="mailto:karen770519@icloud.com">karen770519@icloud.com</a>
+  </div></section>
+</main>
+
+<footer><div class="in">KAREN LI ／ 李 佳晏　© 2026</div></footer>
+</body>
+</html>

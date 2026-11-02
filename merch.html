@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Karen 周邊設計</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="給同人創作者、Coser、VTuber、小店家與活動主辦的周邊設計服務：透卡、壓克力、小卡、徽章，印刷檔一起搞定。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Outfit:wght@600;700&display=swap">
+<style>
+/* 面向二：個人創作者・小店家 — 貼紙、圓角、口語，像攤位上的手寫看板 */
+:root{
+  --orange:#F7942E;--orange-deep:#E57A12;--orange-soft:#FDE8D2;--cream:#FFF8F0;
+  --ink:#2B2522;--muted:#7C746F;--white:#fff;--navy:#2E3A66;
+  --display:"Dela Gothic One","Zen Maru Gothic",sans-serif;
+  --round:"Zen Maru Gothic","Noto Sans TC",sans-serif;
+  --body:"Noto Sans TC",system-ui,sans-serif;
+  --en:"Outfit","Noto Sans TC",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--round);font-weight:500;font-size:16px;line-height:1.85}
+img{max-width:100%;display:block}
+a{color:inherit}
+.in{width:min(1080px,100% - 40px);margin:0 auto}
+
+.bar{position:absolute;top:0;left:0;right:0;z-index:5}
+.bar .in{display:flex;justify-content:space-between;align-items:center;height:72px;gap:12px}
+.back{font-family:var(--en);font-weight:700;font-size:14px;letter-spacing:.08em;text-decoration:none;color:var(--white)}
+.facets{display:flex;gap:4px;font-size:13px;font-weight:700;background:rgba(255,255,255,.2);padding:4px;border-radius:999px}
+.facets a{text-decoration:none;padding:6px 12px;border-radius:999px;color:var(--white)}
+.facets a[aria-current]{background:var(--white);color:var(--orange-deep)}
+@media (max-width:560px){.facets a:not([aria-current]){display:none}}
+
+/* hero */
+.hero{background:var(--orange);color:var(--white);padding:120px 0 0;overflow:hidden;position:relative}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.18) 2px,transparent 2.5px);background-size:22px 22px;pointer-events:none}
+.hero .in{position:relative;display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:end}
+.hi{display:inline-block;background:var(--white);color:var(--orange-deep);font-weight:900;padding:6px 18px;border-radius:999px;font-size:15px;transform:rotate(-3deg);margin-bottom:18px}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(34px,5.4vw,64px);line-height:1.3;margin:0 0 20px}
+.hero p{font-size:clamp(16px,1.5vw,19px);margin:0 0 32px;max-width:30em}
+.hero .dog{width:min(380px,100%);justify-self:center;margin-bottom:-8px}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--white);text-decoration:none;font-weight:900;padding:16px 28px;border-radius:999px;margin-bottom:64px;letter-spacing:.06em}
+.btn:hover{background:var(--navy)}
+@media (max-width:760px){.hero .in{grid-template-columns:1fr}.hero .dog{width:220px;justify-self:end;margin-top:-40px}.btn{margin-bottom:8px}}
+.wave{display:block;width:100%;height:40px;background:var(--cream);clip-path:polygon(0 60%,8% 30%,16% 55%,24% 25%,32% 50%,40% 20%,48% 50%,56% 25%,64% 55%,72% 30%,80% 55%,88% 25%,96% 50%,100% 35%,100% 100%,0 100%);margin-top:-39px;position:relative}
+
+section{padding:80px 0}
+.h2{text-align:center;margin:0 0 40px}
+.h2 small{display:block;font-family:var(--en);font-weight:700;letter-spacing:.2em;font-size:13px;color:var(--orange-deep)}
+.h2 span{font-family:var(--round);font-weight:900;font-size:clamp(26px,3vw,36px)}
+
+/* who */
+.who{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.who li{list-style:none;background:var(--white);border-radius:24px;padding:22px 22px 24px;border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);transition:transform .15s}
+.who li:nth-child(odd){transform:rotate(-1deg)}
+.who li:nth-child(even){transform:rotate(1deg)}
+.who li:hover{transform:rotate(0) translateY(-3px)}
+.who .em{font-size:30px;line-height:1}
+.who b{display:block;font-weight:900;font-size:18px;margin:10px 0 2px}
+.who p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.7}
+.who ul{padding:0;margin:0}
+@media (max-width:820px){.who{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.who{grid-template-columns:1fr}}
+
+/* items */
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;padding:0;margin:0}
+.items li{list-style:none;display:flex;gap:14px;align-items:flex-start;background:var(--white);border-radius:20px;padding:18px 18px}
+.items .ic{flex:0 0 46px;height:46px;border-radius:14px;background:var(--orange-soft);display:grid;place-items:center;font-size:22px}
+.items b{display:block;font-weight:900}
+.items span{font-size:14px;color:var(--muted);line-height:1.6;display:block}
+
+/* print know-how */
+.know{background:var(--navy);color:var(--white);border-radius:48px;padding:64px clamp(24px,5vw,64px)}
+.know .h2 small{color:#FFC98F}
+.know .lead{text-align:center;margin:-20px auto 36px;max-width:34em;opacity:.85}
+.kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.k{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:24px;padding:22px}
+.k .vis{height:96px;border-radius:14px;margin-bottom:14px;position:relative;overflow:hidden;background:#3B4878}
+.k b{display:block;font-size:18px;font-weight:900;margin-bottom:4px}
+.k p{margin:0;font-size:14px;line-height:1.7;opacity:.85}
+/* 簡單示意圖 */
+.v-bleed::before{content:"";position:absolute;inset:10px;background:var(--orange);border-radius:4px}
+.v-bleed::after{content:"";position:absolute;inset:20px;border:2px dashed var(--white);border-radius:2px}
+.v-white{background:repeating-conic-gradient(#56628f 0 25%,#3B4878 0 50%) 0 0/16px 16px!important}
+.v-white::before{content:"";position:absolute;left:18%;top:18%;width:40%;height:64%;background:var(--white);border-radius:50% 50% 12px 12px}
+.v-white::after{content:"";position:absolute;left:28%;top:18%;width:40%;height:64%;background:rgba(247,148,46,.85);border-radius:50% 50% 12px 12px}
+.v-clear{background:repeating-conic-gradient(#56628f 0 25%,#3B4878 0 50%) 0 0/16px 16px!important}
+.v-clear::before{content:"";position:absolute;inset:16px 22%;background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.7);border-radius:10px}
+.v-clear::after{content:"";position:absolute;left:38%;top:34%;width:24%;height:34%;background:var(--orange);border-radius:50%}
+.v-layer::before,.v-layer::after{content:"";position:absolute;width:44%;height:66%;border-radius:10px;top:16%}
+.v-layer::before{left:20%;background:#FFC98F}
+.v-layer::after{left:36%;top:22%;background:var(--orange);box-shadow:-6px 6px 0 rgba(0,0,0,.18)}
+@media (max-width:900px){.kgrid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.kgrid{grid-template-columns:1fr}}
+
+/* flow */
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;padding:0;margin:0;counter-reset:f}
+.flow li{list-style:none;position:relative;background:var(--white);border-radius:22px;padding:56px 18px 22px;text-align:center}
+.flow li::before{counter-increment:f;content:counter(f);position:absolute;top:-18px;left:50%;transform:translateX(-50%);width:52px;height:52px;border-radius:50%;background:var(--orange);color:var(--white);font-family:var(--en);font-weight:700;font-size:22px;display:grid;place-items:center;border:4px solid var(--cream)}
+.flow b{display:block;font-weight:900;font-size:17px}
+.flow span{font-size:14px;color:var(--muted);line-height:1.6;display:block;margin-top:4px}
+@media (max-width:900px){.flow{grid-template-columns:1fr;gap:30px;max-width:460px;margin:0 auto}}
+
+.note{max-width:720px;margin:40px auto 0;background:var(--orange-soft);border-radius:20px;padding:18px 24px;font-size:15px}
+.note b{color:var(--orange-deep)}
+
+/* faq */
+.faq{max-width:760px;margin:0 auto;display:grid;gap:12px}
+.faq details{background:var(--white);border-radius:20px;padding:4px 24px}
+.faq summary{cursor:pointer;list-style:none;font-weight:900;font-size:17px;padding:16px 32px 16px 0;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:0;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:var(--orange);color:var(--white);display:grid;place-items:center;font-family:var(--en);font-size:18px;transition:transform .2s}
+.faq details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq details p{margin:0 0 18px;color:var(--muted)}
+
+/* contact */
+.contact{text-align:center;padding-bottom:120px}
+.bubble{display:inline-block;position:relative;background:var(--white);border:2px solid var(--ink);border-radius:32px;padding:36px clamp(22px,5vw,56px);max-width:640px;box-shadow:6px 6px 0 var(--ink)}
+.bubble::after{content:"";position:absolute;left:50%;bottom:-22px;width:30px;height:30px;background:var(--white);border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:translateX(-50%) rotate(45deg)}
+.bubble h2{margin:0 0 8px;font-family:var(--display);font-weight:400;font-size:clamp(26px,3.4vw,38px)}
+.bubble p{margin:0 0 22px;color:var(--muted)}
+.mail{display:inline-block;background:var(--orange);color:var(--white);text-decoration:none;font-family:var(--en);font-weight:700;padding:14px 26px;border-radius:999px;word-break:break-all}
+.mail:hover{background:var(--orange-deep)}
+.contact img{width:150px;margin:36px auto 0}
+a:focus-visible,summary:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+footer{background:var(--ink);color:#CFC8C2;padding:32px 0;font-family:var(--en);font-size:13px;letter-spacing:.06em}
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="in">
+  <a class="back" href="index.html">← KAREN LI</a>
+  <nav class="facets" aria-label="服務面向">
+    <a href="hire.html">企業・代理商</a>
+    <a href="merch.html" aria-current="page">個人周邊設計</a>
+    <a href="ja.html" lang="ja">日本語</a>
+  </nav>
+</div></div>
+
+<header class="hero"><div class="in">
+  <div>
+    <span class="hi">嗨，我是 Karen 👋</span>
+    <h1>你負責想法，<br>我把它變成<br>工廠能直接印的檔案。</h1>
+    <p>做設計 10 年以上，參與過蔚藍檔案、Shadowverse 的活動周邊，也做過明日方舟、碧藍航線聯名活動的視覺與周邊。現在也幫個人和小團體做周邊。</p>
+    <a class="btn" href="#contact">私訊我聊聊 →</a>
+  </div>
+  <img class="dog" src="img/hero.png" alt="特助狗拿著大鉛筆">
+</div></header>
+<div class="wave" aria-hidden="true"></div>
+
+<main>
+  <section><div class="in">
+    <h2 class="h2"><small>FOR YOU</small><span>適合誰？</span></h2>
+    <ul class="who">
+      <li><div class="em">✍️</div><b>同人創作者</b><p>想把自己的原創角色或插畫做成場販周邊</p></li>
+      <li><div class="em">📸</div><b>Coser</b><p>想做寫真小卡、透卡、壓克力立牌</p></li>
+      <li><div class="em">🎙️</div><b>VTuber／實況主</b><p>粉絲周邊、生日或週年紀念品</p></li>
+      <li><div class="em">🏪</div><b>小店家</b><p>店家吉祥物周邊、來客贈品、品牌鑰匙圈</p></li>
+      <li><div class="em">🎪</div><b>社團／活動主辦</b><p>工作證、名牌、留言牆、活動紀念品</p></li>
+      <li><div class="em">💐</div><b>婚禮或生日紀念</b><p>客製小卡、紀念吊飾、禮物包裝</p></li>
+    </ul>
+  </div></section>
+
+  <section style="padding-top:0"><div class="in">
+    <h2 class="h2"><small>ITEMS</small><span>我可以幫你做</span></h2>
+    <ul class="items">
+      <li><span class="ic">🃏</span><div><b>透卡</b><span>角色或照片收藏卡、場販小物</span></div></li>
+      <li><span class="ic">✨</span><div><b>壓克力吊飾／立牌</b><span>粉絲最愛的經典周邊，也適合當紀念品</span></div></li>
+      <li><span class="ic">💌</span><div><b>小卡、紙卡</b><span>寫真卡、贈品卡、婚禮或生日小卡</span></div></li>
+      <li><span class="ic">🎸</span><div><b>吉他撥片＋背卡</b><span>樂團、音樂系創作者，或想做點特別的小物</span></div></li>
+      <li><span class="ic">🔑</span><div><b>鑰匙圈、徽章</b><span>好帶好送，適合入門第一款周邊</span></div></li>
+      <li><span class="ic">🥤</span><div><b>杯身</b><span>咖啡廳、活動或聯名飲品的杯子設計</span></div></li>
+      <li><span class="ic">🪪</span><div><b>工作證／名牌</b><span>活動工作人員、社團成員、展場攤位</span></div></li>
+      <li><span class="ic">📝</span><div><b>留言牆</b><span>活動現場讓粉絲或來賓寫留言、拍照</span></div></li>
+      <li><span class="ic">🎁</span><div><b>包裝</b><span>讓周邊或禮物拿起來更有質感</span></div></li>
+      <li><span class="ic">🖼️</span><div><b>海報</b><span>場販攤位、活動宣傳、紀念收藏</span></div></li>
+    </ul>
+  </div></section>
+
+  <section style="padding-top:0"><div class="in">
+    <div class="know">
+      <h2 class="h2"><small>PRINT READY</small><span>不只畫面，還有印刷檔</span></h2>
+      <p class="lead">周邊最容易卡關的是「檔案怎麼給工廠」。這些眉角我都會幫你處理好。</p>
+      <div class="kgrid">
+        <div class="k"><div class="vis v-bleed" aria-hidden="true"></div><b>出血</b><p>預留裁切空間，裁切後邊緣不會留白。</p></div>
+        <div class="k"><div class="vis v-white" aria-hidden="true"></div><b>白墨</b><p>印在透明材質上時，決定哪裡要不透光、讓顏色更顯色。</p></div>
+        <div class="k"><div class="vis v-clear" aria-hidden="true"></div><b>透明材質</b><p>透卡、壓克力這類材質，該怎麼安排透明和不透明的地方。</p></div>
+        <div class="k"><div class="vis v-layer" aria-hidden="true"></div><b>壓克力分層</b><p>立牌要做出前後層次時，怎麼拆圖、怎麼對位。</p></div>
+      </div>
+    </div>
+  </div></section>
+
+  <section style="padding-top:20px"><div class="in">
+    <h2 class="h2"><small>FLOW</small><span>合作流程</span></h2>
+    <ol class="flow">
+      <li><b>聊聊需求</b><span>想做什麼品項、大約做幾個、什麼時候要用</span></li>
+      <li><b>報價</b><span>說明設計費用和時程，你確認後再開始</span></li>
+      <li><b>提案</b><span>給你設計初稿</span></li>
+      <li><b>修改</b><span>依你的意見調整</span></li>
+      <li><b>交件</b><span>可直接交給工廠的印刷檔，需要的話協助找廠和打樣</span></li>
+    </ol>
+    <p class="note"><b>小提醒：</b>如果是需要授權的角色商品，請先確認你有使用權。原創角色、自己的照片和自家品牌都沒問題。</p>
+  </div></section>
+
+  <section style="padding-top:0"><div class="in">
+    <h2 class="h2"><small>FAQ</small><span>常見問題</span></h2>
+    <div class="faq">
+      <details><summary>多少錢？</summary><p>依品項、數量與複雜度報價。先告訴我你想做什麼，我會給你明確的費用和時程。</p></details>
+      <details><summary>最少要做幾個？</summary><p>最低製作數量是工廠決定的，每家、每種材質都不一樣。我可以幫你先問清楚。</p></details>
+      <details><summary>要多久？</summary><p>設計時程依品項而定，報價時會一起告訴你。工廠製作的時間另外算，依工廠排程而定。有活動日期的話，請提早告訴我。</p></details>
+      <details><summary>可以幫我找工廠嗎？</summary><p>可以幫你介紹工廠，也可以協助確認樣品。</p></details>
+      <details><summary>我要準備什麼？</summary><p>角色圖或照片的原始檔，解析度越高越好（盡量不要用社群上存下來的壓縮圖）。另外告訴我想做的品項、尺寸、數量和使用日期；有喜歡的參考圖也可以一起給我。</p></details>
+    </div>
+  </div></section>
+
+  <section class="contact" id="contact"><div class="in">
+    <div class="bubble">
+      <h2>想做周邊？來聊聊！</h2>
+      <p>品項、數量、使用日期，想到什麼先丟給我。</p>
+      <a class="mail" href="mailto:karen770519@icloud.com">✉ karen770519@icloud.com</a>
+    </div>
+    <img src="img/contact.png" alt="特助狗拿大聲公揮手">
+  </div></section>
+</main>
+
+<footer><div class="in">KAREN LI ／ 李佳晏　© 2026</div></footer>
+</body>
+</html>
