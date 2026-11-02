@@ -61,16 +61,16 @@ section{padding:88px 0;border-bottom:1px solid var(--line)}
 .reason p{margin:0;color:var(--muted)}
 @media (max-width:560px){.reason{grid-template-columns:1fr;gap:6px}.reason .n{font-size:44px}}
 
-/* clients */
-.groups{display:grid;gap:36px}
-.group h3{margin:0 0 14px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:10px}
-.group h3::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--orange)}
-.rows{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.rows li{display:grid;grid-template-columns:minmax(160px,240px) 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
-.rows li b{font-weight:700}
-.rows li span{color:var(--muted)}
-@media (max-width:560px){.rows li{grid-template-columns:1fr;gap:0}}
-
+/* clients：數字＋名單 */
+.stats{list-style:none;margin:0 0 48px;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stats li{background:var(--white);border-radius:20px;padding:22px 20px;display:flex;flex-direction:column}
+.stats b{font-family:var(--en);font-weight:700;font-size:clamp(40px,5vw,56px);line-height:1;color:var(--orange)}
+.stats span{font-size:14px;color:var(--muted);margin-top:8px}
+@media (max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
+.names h3{margin:28px 0 12px;font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.names h3:first-child{margin-top:0}
+.names p{margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.names span{font-weight:700;font-size:15px;padding:8px 16px;border-radius:999px;background:var(--white);border:1px solid var(--line)}
 /* services table */
 .svc{width:100%;border-collapse:collapse;font-size:15px}
 .svc th,.svc td{text-align:left;padding:16px 12px;border-bottom:1px solid var(--line);vertical-align:top}
@@ -148,43 +148,22 @@ footer{background:var(--ink);color:#CFC8C2;padding:32px 0;font-family:var(--en);
 
   <section><div class="in sh">
     <h2>CLIENTS<span>合作過的 IP／品牌</span></h2>
-    <div class="groups">
-      <div class="group">
-        <h3>遊戲 IP 聯名・周邊</h3>
-        <ul class="rows">
-          <li><b>明日方舟</b><span>× 好想（2025.09）／ × 吉豚屋／ × 麵匡匡（3 店＋Uber Eats 版）</span></li>
-          <li><b>碧藍航線</b><span>餐飲聯名：吉豚屋（2024）→ 老先覺（2025）→ 涮乃葉（2026）</span></li>
-          <li><b>戰雙帕彌什 × 一風堂</b><span>海報、菜單、立牌、轉盤、外帶碗、線上素材</span></li>
-          <li><b>Shadowverse（Cygames）</b><span>北中南巡迴活動全套視覺：立牌、手拿牌、留言牆、杯身、鑰匙圈、工作證</span></li>
-          <li><b>蔚藍檔案</b><span>學園祭周邊：透卡、壓克力吊飾、小卡、吉他撥片</span></li>
-          <li><b>新瑪奇英雄傳（NEXON）</b><span>KV＋角色多方向提案</span></li>
-        </ul>
-      </div>
-      <div class="group">
-        <h3>遊戲 Banner／戶外廣告</h3>
-        <ul class="rows">
-          <li><b>Banner</b><span>BrownDust2 3 週年、Shadowverse、UNDAWN、Racing Master、五等分的花嫁、文明帝國：同盟時代（2K）</span></li>
-          <li><b>OOH</b><span>鳴潮 北中南；日本山手線月台廣告</span></li>
-        </ul>
-      </div>
-      <div class="group">
-        <h3>品牌</h3>
-        <ul class="rows">
-          <li><b>Ricola × IU</b><span>捷運 OOH</span></li>
-          <li><b>Dermacept</b><span>精品保養 KV（AI 產品合成／人物處理）</span></li>
-          <li><b>台灣三洋</b><span>冷氣活動 LP＋型錄封面＋Banner、社群</span></li>
-          <li><b>曼秀雷敦・馬修嚴選・王品莆田</b><span>社群素材</span></li>
-          <li><b>味王</b><span>包裝：菱角農會聯名、女性向高蛋白零食</span></li>
-          <li><b>菲瑞雅系統家具</b><span>官網企劃・設計・RWD 切版</span></li>
-          <li><b>建案廣告</b><span>OOH、官網、店頭 POP、建案接待摺頁</span></li>
-          <li><b>OFFERME2</b><span>型錄 中日韓三語在地化</span></li>
-        </ul>
-      </div>
-      <div class="group">
-        <h3>日本市場（CyberZ 時期）</h3>
-        <ul class="rows">
-          <li><b>日文廣告 Banner</b><span>Pairs、MANARA、minimo、chocoZAP</span></li>
-        </ul>
+    <div>
+      <ul class="stats">
+        <li><b>12</b><span>個遊戲 IP</span></li>
+        <li><b>7</b><span>檔餐飲聯名</span></li>
+        <li><b>4</b><span>場活動</span></li>
+        <li><b>10</b><span>種周邊品項</span></li>
+      </ul>
+      <div class="names">
+        <h3>遊戲 IP</h3>
+        <p><span>明日方舟</span><span>碧藍航線</span><span>戰雙帕彌什</span><span>Shadowverse</span><span>蔚藍檔案</span><span>新瑪奇英雄傳</span><span>鳴潮</span><span>BrownDust2</span><span>UNDAWN</span><span>Racing Master</span><span>五等分的花嫁</span><span>文明帝國：同盟時代</span></p>
+        <h3>聯名餐飲品牌</h3>
+        <p><span>好想</span><span>吉豚屋</span><span>麵匡匡</span><span>老先覺</span><span>涮乃葉</span><span>一風堂</span></p>
+        <h3>品牌客戶</h3>
+        <p><span>Ricola</span><span>Dermacept</span><span>台灣三洋</span><span>曼秀雷敦</span><span>馬修嚴選</span><span>王品 莆田</span><span>味王</span><span>菲瑞雅系統家具</span></p>
+        <h3>日本市場</h3>
+        <p><span>Pairs</span><span>MANARA</span><span>minimo</span><span>chocoZAP</span></p>
       </div>
     </div>
   </div></section>
