@@ -1,0 +1,294 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Karen Li Portfolio</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="李佳晏 Karen Li — 遊戲 IP 跨界聯名、品牌設計、AI 與設計流程系統。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Outfit:wght@400;600;700&display=swap">
+<style>
+/* 架構參考 etoha-lab：固定底圖（灰色手繪卡片牆＋中央橘卡特助狗）→ 毛玻璃面板一層層滑上來 */
+:root{
+  --orange:#F7942E;          /* 日文版作品集封面的橘 */
+  --orange-deep:#E57A12;
+  --orange-soft:#FDE8D2;
+  --paper:#EFEFEF;
+  --ink:#2B2522;
+  --muted:#7C746F;
+  --white:#FFFFFF;
+  --glass:rgba(255,255,255,.55);
+  --display:"Dela Gothic One","Zen Maru Gothic",sans-serif;
+  --round:"Zen Maru Gothic","Noto Sans TC",sans-serif;
+  --body:"Noto Sans TC",system-ui,sans-serif;
+  --en:"Outfit","Noto Sans TC",sans-serif;
+}
+:root{color-scheme:light}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.8;font-size:16px}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.in{width:min(1200px,100% - 40px);margin:0 auto}
+
+/* ---------- 固定底圖 ---------- */
+#bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:var(--paper)}
+#bg .tiles{position:absolute;inset:-3%;background:url(img/bg.jpg) center/cover no-repeat;opacity:.55}
+#bg::after{content:"";position:absolute;inset:0;opacity:.35;mix-blend-mode:multiply;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+#bg .main{position:absolute;left:50%;top:52%;width:clamp(200px,21vw,300px);aspect-ratio:3/4.2;transform:translate(-50%,-50%) rotate(-2.5deg);background:linear-gradient(160deg,#FBAA52,var(--orange) 45%,var(--orange-deep));border-radius:18px 22px 16px 20px;box-shadow:0 20px 50px rgba(229,122,18,.25);z-index:1}
+#bg .main img{position:absolute;left:50%;top:56%;width:96%;transform:translate(-50%,-50%) rotate(2.5deg)}
+#bg .main .bubble{right:-38%;top:-8%;transform:rotate(2.5deg)}
+
+.bubble{position:absolute;background:var(--white);border-radius:999px;padding:16px 30px;font-family:var(--round);font-weight:900;font-size:clamp(14px,1.3vw,18px);letter-spacing:.15em;white-space:nowrap;box-shadow:0 6px 20px rgba(0,0,0,.06)}
+.bubble::after{content:"";position:absolute;left:26%;bottom:-10px;border:10px solid transparent;border-top-color:var(--white);border-bottom:0}
+
+/* ---------- header ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;justify-content:space-between;align-items:flex-start;padding:28px max(24px,4vw);pointer-events:none}
+header>*{pointer-events:auto}
+.logo{display:grid;justify-items:center;gap:2px;font-family:var(--en);font-weight:700;font-size:11px;letter-spacing:.14em;color:var(--orange)}
+.logo svg{width:52px;height:52px}
+.gnav{display:flex;align-items:center;gap:6px;padding:6px 6px 6px 26px;border-radius:999px;background:rgba(255,255,255,.6);border:1px solid var(--white);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.gnav a{font-family:var(--en);font-weight:600;font-size:14px;letter-spacing:.06em;padding:8px 14px;border-radius:999px}
+.gnav a:hover{color:var(--orange-deep)}
+.gnav a.cta{background:var(--orange);color:var(--white);padding:9px 20px}
+.gnav a.cta:hover{background:var(--orange-deep);color:var(--white)}
+@media (max-width:760px){.gnav a:not(.cta){display:none}.gnav{padding:6px}}
+
+/* ---------- hero（透明，看得到底圖） ---------- */
+#hero{position:relative;z-index:2;height:100vh;min-height:620px}
+.catch{position:absolute;right:max(24px,7vw);bottom:12vh;font-family:var(--display);font-weight:400;font-size:clamp(34px,4.4vw,60px);line-height:1.22;letter-spacing:.04em;margin:0}
+.catch em{font-style:normal;color:var(--orange)}
+.catch small{display:block;font-family:var(--en);font-weight:400;font-size:clamp(12px,1.1vw,15px);letter-spacing:.04em;color:#A9A29D;margin-top:10px}
+.talk{position:absolute;left:max(24px,5vw);bottom:12vh;display:inline-flex;align-items:center;gap:10px;background:var(--orange);color:var(--white);font-family:var(--round);font-weight:900;font-size:16px;letter-spacing:.12em;padding:22px 32px;border-radius:999px;transition:transform .2s}
+.talk::after{content:"";position:absolute;right:30%;bottom:-12px;border:12px solid transparent;border-top-color:var(--orange);border-bottom:0;transform:skewX(-30deg)}
+.talk:hover{transform:translateY(-3px);background:var(--orange-deep)}
+.talk:hover::after{border-top-color:var(--orange-deep)}
+@media (max-width:760px){.catch{right:20px;bottom:22vh}.talk{left:20px;bottom:7vh}#bg .main .bubble{right:-12%}}
+
+/* ---------- 共用 ---------- */
+main{position:relative;z-index:2}
+.heading{text-align:center;margin-bottom:56px}
+.heading h2{font-family:var(--en);font-weight:700;font-size:clamp(40px,5.4vw,72px);line-height:1;letter-spacing:.02em;margin:0}
+.heading p{font-family:var(--round);font-weight:700;color:var(--orange);margin:8px 0 0;letter-spacing:.2em;font-size:14px}
+.more{display:inline-flex;align-items:center;gap:14px;font-family:var(--en);font-weight:600;letter-spacing:.1em;font-size:14px}
+.more i{width:44px;height:44px;border-radius:50%;background:var(--orange);color:var(--white);display:grid;place-items:center;font-style:normal;transition:transform .2s}
+.more:hover i{transform:translateX(4px)}
+.ph{background:repeating-linear-gradient(-45deg,#FCE3C8 0 14px,#FBD7B0 14px 28px);display:grid;place-items:center;text-align:center;color:#B3621B;font-family:var(--round);font-weight:700;font-size:13px;line-height:1.4;padding:12px}
+.ph small{display:block;font-weight:500;opacity:.75;font-size:11px}
+
+/* ---------- ABOUT：毛玻璃面板 ---------- */
+#about{padding:180px 0 160px}
+.about-box{display:grid;grid-template-columns:auto 1fr;gap:64px;align-items:start;padding:96px clamp(28px,8vw,116px);border-radius:48px;background:var(--glass);border:1px solid var(--white);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px)}
+.about-box .heading{text-align:left;margin:0}
+.about-box h3{font-family:var(--round);font-weight:900;font-size:clamp(24px,2.8vw,34px);line-height:1.6;margin:0 0 24px}
+.about-box h3 em{font-style:normal;color:var(--orange)}
+.about-box p{margin:0 0 14px}
+.about-box .en{color:var(--muted);font-family:var(--en);font-size:14px;line-height:1.7;margin:22px 0 30px}
+@media (max-width:820px){.about-box{grid-template-columns:1fr;gap:28px;padding:56px 28px;border-radius:32px}}
+
+/* ---------- WORKS：圓角毛玻璃大區塊 ---------- */
+#works{padding:110px 0 140px;border-radius:100px 100px 0 0;border:1px solid var(--white);border-bottom:0;background:rgba(255,255,255,.45);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px)}
+@media (max-width:760px){#works{border-radius:44px 44px 0 0;padding-top:72px}}
+.newitem{display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:center;margin-bottom:80px}
+.newitem .ph{aspect-ratio:16/10;border-radius:28px}
+.label{display:inline-flex;align-items:center;gap:8px;font-family:var(--en);font-weight:700;font-size:13px;letter-spacing:.14em;color:var(--orange)}
+.label b{background:var(--orange);color:var(--white);border-radius:999px;padding:2px 12px;font-size:11px}
+.newitem h3{font-family:var(--round);font-weight:900;font-size:clamp(22px,2.4vw,30px);line-height:1.5;margin:12px 0 10px}
+.newitem p{color:var(--muted);margin:0 0 20px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags span{font-size:12px;padding:3px 12px;border-radius:999px;background:var(--white);border:1px solid #E7DED6;font-weight:500}
+@media (max-width:820px){.newitem{grid-template-columns:1fr;gap:24px}}
+.track{display:flex;gap:28px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 4px 24px;scrollbar-width:none}
+.track::-webkit-scrollbar{display:none}
+.card{flex:0 0 clamp(250px,28vw,340px);scroll-snap-align:start;display:flex;flex-direction:column;gap:12px}
+.card .ph{aspect-ratio:4/3;border-radius:22px;transition:transform .3s}
+.card:hover .ph{transform:scale(1.03)}
+.card h4{margin:0;font-family:var(--round);font-weight:700;font-size:17px;line-height:1.45}
+.snav{display:flex;justify-content:space-between;align-items:center;margin-top:28px}
+.arrows{display:flex;gap:10px}
+.arrows button{width:48px;height:48px;border-radius:50%;border:1px solid var(--white);background:rgba(255,255,255,.7);backdrop-filter:blur(4px);font-size:18px;cursor:pointer;color:var(--ink)}
+.arrows button:hover{background:var(--orange);color:var(--white)}
+.arrows button:focus-visible,.more:focus-visible,.talk:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+
+/* ---------- SERVICE：橘色實心區＋流動帶 ---------- */
+#service{position:relative;background:var(--orange);color:var(--white);padding:120px 0 140px;overflow:clip}
+#service .heading p{color:var(--white);opacity:.85}
+.belt{position:absolute;left:-5%;right:-5%;top:46%;transform:rotate(-4deg);background:var(--white);color:var(--orange);font-family:var(--display);font-size:clamp(40px,6vw,88px);white-space:nowrap;line-height:1.3;opacity:.18;pointer-events:none;overflow:hidden}
+.belt div{display:inline-block}
+.belt span{display:inline-block;padding-right:.6em}
+@media (prefers-reduced-motion:no-preference){.belt div{animation:belt 40s linear infinite}}
+@keyframes belt{to{transform:translateX(-50%)}}
+.svc{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+@media (max-width:980px){.svc{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.svc{grid-template-columns:1fr}}
+.svc article{background:var(--white);color:var(--ink);border-radius:28px;padding:28px 26px 30px;display:flex;flex-direction:column;gap:12px}
+.svc .no{font-family:var(--en);font-weight:700;color:var(--orange);font-size:15px;letter-spacing:.1em}
+.svc img{height:120px;width:auto;max-width:90%;object-fit:contain;align-self:center;margin-block:6px}
+.svc h3{margin:0;font-family:var(--round);font-weight:900;font-size:19px;line-height:1.45}
+.svc ul{margin:0;padding-left:1.1em;color:var(--muted);font-size:14px}
+
+/* ---------- PROFILE（取代 member 區） ---------- */
+#profile{background:var(--white);padding:130px 0}
+.pf{display:grid;grid-template-columns:320px 1fr;gap:64px;align-items:start}
+.pcard{border-radius:28px;overflow:hidden;background:var(--orange-soft);position:relative}
+.pcard img{aspect-ratio:1;object-fit:cover;width:100%}
+.pcard .name{background:var(--white);margin:-28px 16px 16px;position:relative;border-radius:16px;padding:14px 18px;box-shadow:0 6px 20px rgba(0,0,0,.06)}
+.pcard .name b{display:block;font-family:var(--round);font-size:20px}
+.pcard .name span{font-family:var(--en);font-size:13px;color:var(--muted);letter-spacing:.08em}
+.pcard .say{top:16px;right:16px;font-size:13px;padding:10px 16px;letter-spacing:.08em}
+.pcard .say::after{left:auto;right:24%}
+.tl{list-style:none;margin:0;padding:0;display:grid}
+.tl li{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:20px 0;border-bottom:1px dashed #E3D8CE}
+.tl time{font-family:var(--en);font-weight:600;color:var(--orange);font-size:14px;font-variant-numeric:tabular-nums;padding-top:3px}
+.tl h3{margin:0;font-family:var(--round);font-weight:900;font-size:18px}
+.tl p{margin:2px 0 0;color:var(--muted);font-size:14px}
+@media (max-width:860px){.pf{grid-template-columns:1fr;gap:40px}.pcard{max-width:340px}.tl li{grid-template-columns:1fr;gap:2px}}
+
+/* ---------- CONTACT ---------- */
+#contact{background:var(--white);padding:0 0 120px}
+.cbox{position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;gap:40px;border-radius:48px;padding:64px clamp(28px,6vw,90px);background:var(--paper);overflow:hidden}
+.cbox h2{font-family:var(--en);font-weight:700;font-size:clamp(40px,5vw,64px);line-height:1;margin:0 0 6px}
+.cbox h3{font-family:var(--round);font-weight:900;font-size:clamp(20px,2.2vw,26px);margin:18px 0 8px;line-height:1.5}
+.cbox p{color:var(--muted);margin:0 0 26px}
+.cbox .dog{width:clamp(160px,18vw,230px)}
+@media (max-width:760px){.cbox{grid-template-columns:1fr}.cbox .dog{justify-self:end}}
+footer{position:relative;z-index:2;background:var(--ink);color:#CFC8C2;padding:40px 0;font-size:13px}
+footer .in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:var(--en);letter-spacing:.06em}
+
+@media (prefers-reduced-motion:no-preference){
+  .float{animation:float 3.4s ease-in-out infinite}
+  @keyframes float{50%{transform:translate(-50%,calc(-50% - 8px)) rotate(2.5deg)}}
+}
+/* ---------- 刷痕材質按鈕（學 etoha：3 格動態 WebP，每格 330ms 循環；圖比按鈕大一圈，毛邊被圓角裁掉） ---------- */
+.talk{background:url(img/btn-bg.webp) 54% 50%/auto 140% no-repeat}
+.talk:hover{background:url(img/btn-bg.webp) 54% 50%/auto 140% no-repeat}
+.talk::after,.talk:hover::after{border-top-color:#C95E0B}
+</style>
+
+<div id="bg" aria-hidden="true">
+  <div class="tiles"></div>
+  <div class="main">
+    <img class="float" src="img/hero.png" alt="">
+    <div class="bubble">做設計最開心</div>
+  </div>
+</div>
+
+<header>
+  <a class="logo" href="#hero" aria-label="KAREN LI 首頁">
+    <svg viewBox="0 0 100 100"><g fill="#F7942E"><circle cx="50" cy="22" r="18"/><circle cx="78" cy="42" r="18"/><circle cx="68" cy="75" r="18"/><circle cx="32" cy="75" r="18"/><circle cx="22" cy="42" r="18"/></g><circle cx="50" cy="52" r="12" fill="#fff"/></svg>
+    KAREN LI
+  </a>
+  <nav class="gnav" aria-label="主選單">
+    <a href="#about">ABOUT</a><a href="#works">WORKS</a><a href="#service">SERVICE</a><a href="#profile">PROFILE</a>
+    <a class="cta" href="#contact">CONTACT →</a>
+  </nav>
+</header>
+
+<section id="hero">
+  <h1 class="catch">不是<em>將就</em>，<br>而是<em>講究</em>。<small>Not just good enough. Just right.</small></h1>
+  <a class="talk" href="#contact">聊聊你的案子 →</a>
+</section>
+
+<main>
+  <section id="about">
+    <div class="in">
+      <div class="about-box">
+        <div class="heading"><h2>ABOUT</h2><p>關於我</p></div>
+        <div>
+          <h3>從企劃到落地，<br>把 IP 聯名做到<em>剛剛好</em>。</h3>
+          <p>BANDAI NAMCO、CyberZ 出身，台日兩地 13 年的遊戲與廣告設計經驗。現在擔任廣告代理商 Art Director，主導遊戲 IP 的餐飲聯名、活動周邊與品牌視覺。</p>
+          <p>也用 AI 和自動化改造工作方式：LINE 派工機器人、設計師看板、甘特圖、自動週報，讓小團隊也能穩定接大量 IP 案。</p>
+          <p class="en">Art Director with 13 years in Japan and Taiwan (BANDAI NAMCO, CyberZ). I lead game-IP collaborations from concept to approval, and build the AI workflows that keep a small team shipping.</p>
+          <a class="more" href="#profile">VIEW MORE <i>→</i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="works">
+    <div class="in">
+      <div class="heading"><h2>WORKS</h2><p>作品</p></div>
+      <div class="newitem">
+        <div class="ph">假圖｜明日方舟 × 好想 代表作<small>16:10 主視覺或實拍拼貼</small></div>
+        <div>
+          <span class="label">PICK UP <b>NEW</b></span>
+          <h3>明日方舟 × 好想<br>餐飲聯名全案視覺</h3>
+          <p>2025.09｜主視覺、店內 A3／A4、周邊設計，從提案到原廠監修一手主導。</p>
+          <div class="tags"><span>遊戲 IP</span><span>餐飲聯名</span><span>周邊</span></div>
+        </div>
+      </div>
+      <div class="track" id="track">
+        <a class="card" href="#works"><div class="ph">假圖｜碧藍航線 × 涮乃葉</div><h4>碧藍航線 餐飲聯名系列</h4><div class="tags"><span>IP 聯名</span><span>2024–2026</span></div></a>
+        <a class="card" href="#works"><div class="ph">假圖｜戰雙帕彌什 × 一風堂</div><h4>戰雙帕彌什 × 一風堂</h4><div class="tags"><span>IP 聯名</span><span>菜單・立牌</span></div></a>
+        <a class="card" href="#works"><div class="ph">假圖｜Shadowverse 巡迴</div><h4>Shadowverse 北中南巡迴</h4><div class="tags"><span>活動視覺</span><span>Cygames</span></div></a>
+        <a class="card" href="#works"><div class="ph">假圖｜蔚藍檔案 周邊</div><h4>蔚藍檔案 學園祭周邊</h4><div class="tags"><span>周邊</span></div></a>
+        <a class="card" href="#works"><div class="ph">假圖｜新瑪奇英雄傳 KV</div><h4>新瑪奇英雄傳 主視覺提案</h4><div class="tags"><span>主視覺</span><span>NEXON</span></div></a>
+        <a class="card" href="#works"><div class="ph">假圖｜Ricola × IU 捷運</div><h4>Ricola 捷運 OOH</h4><div class="tags"><span>品牌</span><span>OOH</span></div></a>
+        <a class="card" href="#works"><div class="ph">假圖｜派工看板截圖</div><h4>設計部派工系統</h4><div class="tags"><span>自動化</span></div></a>
+        <a class="card" href="#works"><div class="ph">假圖｜特助狗影片截圖</div><h4>特助狗 AI 動畫</h4><div class="tags"><span>AI 影片</span></div></a>
+      </div>
+      <div class="snav">
+        <div class="arrows"><button type="button" id="prev" aria-label="上一個">←</button><button type="button" id="next" aria-label="下一個">→</button></div>
+        <a class="more" href="#works">VIEW ALL <i>→</i></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="service">
+    <div class="belt" aria-hidden="true"><div><span>GAME IP × BRAND × AI ・</span><span>GAME IP × BRAND × AI ・</span><span>GAME IP × BRAND × AI ・</span><span>GAME IP × BRAND × AI ・</span></div></div>
+    <div class="in">
+      <div class="heading"><h2>SERVICE</h2><p>我能幫你做的事</p></div>
+      <div class="svc">
+        <article><span class="no">01</span><img src="img/svc1.png" alt=""><h3>遊戲 IP 跨界聯名</h3><ul><li>聯名企劃與主視覺</li><li>原廠監修對應</li><li>店內物料・菜單</li></ul></article>
+        <article><span class="no">02</span><img src="img/svc2.png" alt=""><h3>活動與周邊</h3><ul><li>活動全套視覺</li><li>壓克力・透卡・吊飾</li><li>印刷入稿與打樣</li></ul></article>
+        <article><span class="no">03</span><img src="img/svc3.png" alt=""><h3>品牌與廣告</h3><ul><li>KV・OOH・Banner</li><li>社群素材</li><li>中日韓多語在地化</li></ul></article>
+        <article><span class="no">04</span><img src="img/svc4.png" alt=""><h3>AI 與流程系統</h3><ul><li>AI 生圖・AI 影片</li><li>派工・看板自動化</li><li>團隊導入與教學</li></ul></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="profile">
+    <div class="in">
+      <div class="heading"><h2>PROFILE</h2><p>經歷</p></div>
+      <div class="pf">
+        <div class="pcard">
+          <img src="img/avatar.jpg" alt="Karen 的插畫頭像（demo）">
+          <div class="bubble say">今天也在畫圖</div>
+          <div class="name"><b>李佳晏 Karen Li</b><span>ART DIRECTOR</span></div>
+        </div>
+        <ol class="tl">
+          <li><time>2025.02 — 現在</time><div><h3>OFFERME2 廣告代理商｜Art Director</h3><p>遊戲 IP 聯名與品牌視覺，帶領設計團隊，建立派工、看板與 AI 工作流程。</p></div></li>
+          <li><time>2024.07 — 2025.02</time><div><h3>宏明建設｜Art Director</h3><p>建案廣告、OOH、網站與實體物料。</p></div></li>
+          <li><time>2023.11 — 2024.07</time><div><h3>Freelance Designer</h3><p>遊戲與品牌的接案設計。</p></div></li>
+          <li><time>2018.09 — 2023.11</time><div><h3>株式会社 CyberZ｜Designer</h3><p>日本手機遊戲廣告與行銷素材。</p></div></li>
+          <li><time>2016.11 — 2018.05</time><div><h3>株式会社ブランズワーク｜Planner & Designer</h3><p>促銷企劃、包裝與商品設計。</p></div></li>
+          <li><time>2012.08 — 2016.08</time><div><h3>BANDAI NAMCO｜Designer</h3><p>遊戲 App 視覺、活動與宣傳物。</p></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="in">
+      <div class="cbox">
+        <div>
+          <h2>CONTACT</h2>
+          <h3>想法還很模糊也沒關係！</h3>
+          <p>聯名企劃、活動視覺、AI 導入，先聊聊你想做什麼。</p>
+          <a class="more" href="#contact">聯絡方式（之後填）<i>→</i></a>
+        </div>
+        <img class="dog" src="img/contact.png" alt="特助狗拿大聲公揮手">
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="in"><span>KAREN LI ／ 李佳晏</span><span>© 2026</span></div></footer>
+
+<script>
+const t=document.getElementById('track');
+const step=()=>t.querySelector('.card').getBoundingClientRect().width+28;
+document.getElementById('prev').onclick=()=>t.scrollBy({left:-step(),behavior:'smooth'});
+document.getElementById('next').onclick=()=>t.scrollBy({left:step(),behavior:'smooth'});
+</script>
+
+</body></html>
