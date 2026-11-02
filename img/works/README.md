@@ -3,7 +3,7 @@
 > 長邊 ≤ 2000px；不透明圖轉 JPG（品質 85，過大再降），透明圖保留 PNG。【待確認】請 Karen 補。檔名前綴 = 品項（kv 主視覺、poster 海報、photo 現場照、card 插卡、acrylic-charm 壓克力吊飾、clear-card 透卡、online 線上素材、social 社群素材…）。
 
 ## arknights-haoxiang
-- 名稱：明日方舟 × 好想
+- 名稱：明日方舟 × 好想吃冰
 - 年份：2025
 - 我負責：A3 海報、A4 任務說明、周邊（便條紙、杯墊、相見歡插牌、螢幕留言板、餐點小插卡）【待確認：是否全案主導】
 - 圖片：a4-mission-01.jpg、card-01.png、card-02.png、card-03.png、card-04.png、card-05.png、card-06.png、card-07.png、coaster-01.png、coaster-02.png、memo-01.jpg、memo-02.jpg、message-board-01.png、message-board-02.png、photo-01.jpg、photo-02.jpg、photo-03.jpg、photo-04.jpg、photo-05.jpg、photo-06.jpg、photo-07.jpg、photo-08.jpg、photo-09.jpg、photo-10.jpg、photo-11.jpg、poster-a3-01.jpg
