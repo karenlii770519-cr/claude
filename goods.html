@@ -118,10 +118,10 @@ const GROUPS = [
     { label: '明日方舟 吸管套', note: '霧面紙・對折', kind: 'sleeve', fold: 0.494, art: W+'arknights-haoxiang/card-07.png' },
   ]},
   { title: '壓克力吊飾', sub: '3mm 透明壓克力，彩色印在背面、後面再鋪白墨；從正面隔著壓克力看圖，翻到背面是白墨。吊孔穿開口圈。', items: [
-    { label: '碧藍航線 壓克力吊飾', note: '3mm 壓克力＋開口圈', kind: 'acrylic', art: W+'azurlane-shabu/acrylic-charm-01.jpg' },
-    { label: '碧藍航線 壓克力吊飾', note: '3mm 壓克力＋開口圈', kind: 'acrylic', art: W+'azurlane-shabu/acrylic-charm-02.jpg' },
-    { label: '蔚藍檔案 壓克力吊飾', note: '3mm 壓克力＋開口圈', kind: 'acrylic', art: W+'bluearchive-festival/acrylic-charm-01.jpg' },
-    { label: '蔚藍檔案 壓克力吊飾', note: '3mm 壓克力＋開口圈', kind: 'acrylic', art: W+'bluearchive-festival/acrylic-charm-02.jpg' },
+    { label: '碧藍航線 壓克力吊飾', note: '3mm 壓克力＋開口圈', kind: 'acrylic', art: W+'acrylic/azurlane-chaoho/art.png', dir: W+'acrylic/azurlane-chaoho/' },
+    { label: '碧藍航線 壓克力吊飾', note: '3mm 壓克力＋開口圈', kind: 'acrylic', art: W+'acrylic/azurlane-chenhai/art.png', dir: W+'acrylic/azurlane-chenhai/' },
+    { label: '蔚藍檔案 壓克力吊飾', note: '3mm 壓克力＋開口圈', kind: 'acrylic', art: W+'acrylic/ba-airi/art.png', dir: W+'acrylic/ba-airi/' },
+    { label: '蔚藍檔案 壓克力吊飾', note: '3mm 壓克力＋開口圈', kind: 'acrylic', art: W+'acrylic/ba-kazusa/art.png', dir: W+'acrylic/ba-kazusa/' },
   ]},
 ];
 
@@ -372,9 +372,11 @@ async function build(item, el, index) {
   if (item.kind === 'laser') { w = 63; h = 88; }
   let c_extraTop = 0;
   if (item.kind === 'acrylic') {
-    item.cutSrc = cutWhiteBackground(toCanvas(im), true);
-    item.printOnly = clearMargin(item.cutSrc);
-    art = item.cutSrc;
+    // 已拆好的三層：art.png（彩色）、white.png（白墨）、cut.png（刀模外型＋吊孔）
+    const [cutIm, whiteIm] = await Promise.all([loadImage(item.dir + 'cut.png'), loadImage(item.dir + 'white.png')]);
+    item.cutSrc = toCanvas(cutIm);
+    item.printOnly = art;
+    item.whiteSrc = toCanvas(whiteIm);
   }
   if (item.kind === 'paper') art = cutWhiteBackground(art);
   if (item.kind === 'sleeve') art = eraseFoldDashes(art, item.fold ?? 0.5);
@@ -432,15 +434,16 @@ async function build(item, el, index) {
     const env = envMap();
     scene.environment = env;
     const T = thick;
-    const face = new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0, transmission: 1, thickness: T, ior: 1.49, envMap: env, envMapIntensity: 1.2, specularIntensity: 1, clearcoat: 1, clearcoatRoughness: 0.02 });
-    const edge = new THREE.MeshPhysicalMaterial({ color: 0xf2fffb, roughness: 0.06, transmission: 0.85, thickness: 6, ior: 1.49, envMap: env, envMapIntensity: 1.4 });
+    // 用透明疊色＋亮面反射表現壓克力（多張卡同時渲染時，transmission 會把印刷糊掉）
+    const face = new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0, metalness: 0, transparent: true, opacity: 0.16, envMap: env, envMapIntensity: 1.3, clearcoat: 1, clearcoatRoughness: 0.02, depthWrite: false });
+    const edge = new THREE.MeshPhysicalMaterial({ color: 0xe8fbf4, roughness: 0.05, metalness: 0, transparent: true, opacity: 0.55, envMap: env, envMapIntensity: 1.5, clearcoat: 1, depthWrite: false });
     const bodyGeo = new THREE.ExtrudeGeometry(geo.shape, { depth: T, bevelEnabled: true, bevelThickness: 0.2, bevelSize: 0.2, bevelSegments: 2, curveSegments: 24 });
     const body = new THREE.Mesh(bodyGeo, [face, edge]);
-    body.position.z = -T / 2; inner.add(body);
+    body.position.z = -T / 2; body.renderOrder = 5; inner.add(body);
     const shape = rect(w, h);
     const uvGeo = () => { const g = new THREE.ShapeGeometry(shape); const uv = g.attributes.uv, pos = g.attributes.position; for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getX(i) / w, 1 + pos.getY(i) / h); return g; };
     const printOnlyT = tex(item.printOnly, true);
-    const whiteC = alphaMask(item.printOnly);
+    const whiteC = alphaMask(item.whiteSrc || item.printOnly);
     // 彩色：貼在背面、朝前
     const print = new THREE.Mesh(uvGeo(), new THREE.MeshStandardMaterial({ map: printOnlyT, alphaTest: 0.5, roughness: 0.6, envMap: env, envMapIntensity: 0.55 }));
     print.position.z = -T / 2 - 0.02; inner.add(print);
