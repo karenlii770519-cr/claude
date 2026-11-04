@@ -105,6 +105,12 @@ const W = 'img/works/';
 // mask（選填）＝白墨版：黑色＝上白墨不透光，白色或透明＝透出雷射膜
 // kind: laser＝雷射卡（整張是雷射膜，深色處自動當白墨）／sleeve＝對折吸管套（霧面紙，依透明背景裁切）／acrylic＝壓克力（白底自動去背）
 const GROUPS = [
+  { title: '刀模小卡', sub: '霧面紙，依刀模裁切外型；背面白色。', items: [
+    { label: '蔚藍檔案 小卡', note: '霧面紙・刀模', kind: 'paper', art: W+'bluearchive-festival/paper-card-04.jpg' },
+    { label: '蔚藍檔案 小卡', note: '霧面紙・刀模', kind: 'paper', art: W+'bluearchive-festival/paper-card-05.jpg' },
+    { label: '蔚藍檔案 小卡', note: '霧面紙・刀模', kind: 'paper', art: W+'bluearchive-festival/paper-card-08.jpg' },
+    { label: '蔚藍檔案 小卡', note: '霧面紙・刀模', kind: 'paper', art: W+'bluearchive-festival/paper-card-09.jpg' },
+  ]},
   { title: '吸管套', sub: '霧面紙，沿虛線對折；正面是角色，翻過來是另一半的 Logo，內側白色。', items: [
     { label: '明日方舟 吸管套', note: '霧面紙・對折', kind: 'sleeve', fold: 0.494, art: W+'arknights-haoxiang/card-04.png' },
     { label: '明日方舟 吸管套', note: '霧面紙・對折', kind: 'sleeve', fold: 0.494, art: W+'arknights-haoxiang/card-05.png' },
@@ -202,6 +208,17 @@ function cutWhiteBackground(src) {
     if (cx > 0) stack.push(i - 1); if (cx < w - 1) stack.push(i + 1);
     if (cy > 0) stack.push(i - w); if (cy < h - 1) stack.push(i + w);
   }
+  // 補洞：邊緣淡色區塊被誤當背景時，每一列左右邊界之間都補回不透明
+  for (let y = 0; y < h; y++) {
+    let l = -1, r = -1;
+    for (let i = 0; i < w; i++) if (p[(y * w + i) * 4 + 3] > 0) { if (l < 0) l = i; r = i; }
+    for (let i = l; i >= 0 && i <= r; i++) p[(y * w + i) * 4 + 3] = 255;
+  }
+  for (let i = 0; i < w; i++) {
+    let t = -1, b = -1;
+    for (let y = 0; y < h; y++) if (p[(y * w + i) * 4 + 3] > 0) { if (t < 0) t = y; b = y; }
+    for (let y = t; y >= 0 && y <= b; y++) p[(y * w + i) * 4 + 3] = 255;
+  }
   x.putImageData(d, 0, 0);
   return src;
 }
@@ -252,7 +269,7 @@ async function build(item, el, index) {
   // 實際尺寸（mm）：卡片 63×88，其他依圖片比例
   let h = item.kind === 'acrylic' ? 62 : item.kind === 'sleeve' ? 120 : 88, w = h * aspect;
   if (item.kind === 'laser') { w = 63; h = 88; }
-  if (item.kind === 'acrylic') art = cutWhiteBackground(art);
+  if (item.kind === 'acrylic' || item.kind === 'paper') art = cutWhiteBackground(art);
   if (item.kind === 'sleeve') art = eraseFoldDashes(art, item.fold ?? 0.5);
   const thick = item.kind === 'acrylic' ? 3 : 0.35;
   const scene = new THREE.Scene();
@@ -277,6 +294,11 @@ async function build(item, el, index) {
       const back = new THREE.Mesh(bg, material(tex(bc, true), null, { w, h, light: L, flipX: w, gloss: 0.2 }));
       back.position.z = -thick / 2 - 0.01; inner.add(back);
     }
+  } else if (item.kind === 'paper') {
+    const shape = rect(w, h);
+    const opt = { w, h, light: L, cut: true, gloss: 0.03 };
+    inner.add(new THREE.Mesh(new THREE.ShapeGeometry(shape), material(printT, null, { ...opt, side: THREE.FrontSide })));
+    inner.add(new THREE.Mesh(new THREE.ShapeGeometry(shape), material(tex(alphaMask(art), true), null, { ...opt, side: THREE.BackSide })));
   } else if (item.kind === 'sleeve') {
     // 對折：下半＝正面（角色），上半沿虛線往後折到背面
     const yf = h * (item.fold ?? 0.5);
