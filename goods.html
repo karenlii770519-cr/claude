@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Karen Li 周邊</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="李佳晏 Karen Li 周邊設計：雷射卡、異形卡、壓克力吊飾，3D 即時預覽。">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script src="gate.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+TC:wght@400;500;700&family=Outfit:wght@400;600;700&display=swap">
+<style>
+/* 周邊頁：用 3D 即時預覽呈現材質（雷射膜、白墨、壓克力），比平面圖更有說服力 */
+:root{
+  --orange:#F7942E;--orange-deep:#E57A12;--ink:#2B2522;--muted:#7C746F;--line:#E3D8CE;--white:#fff;
+  --round:"Zen Maru Gothic","Noto Sans TC",sans-serif;--body:"Noto Sans TC",system-ui,sans-serif;--en:"Outfit","Noto Sans TC",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font-family:var(--body);line-height:1.7;background:linear-gradient(180deg,#F6F3F0 0%,#ECE6E0 55%,#E2DBD4 100%) fixed}
+a{color:inherit}
+.in{width:min(1320px,100% - 32px);margin:0 auto}
+#gl{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:5}
+
+.bar{position:sticky;top:0;z-index:20;background:rgba(246,243,240,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar .row{display:flex;justify-content:space-between;align-items:center;height:60px;gap:12px}
+.back{font-family:var(--en);font-weight:600;font-size:14px;letter-spacing:.08em;text-decoration:none;color:var(--orange-deep)}
+.facets{display:flex;gap:4px;font-size:13px;font-weight:500}
+.facets a{text-decoration:none;padding:6px 12px;border-radius:999px}
+.facets a[aria-current]{background:var(--ink);color:var(--white)}
+@media (max-width:640px){.facets a:not([aria-current]){display:none}}
+
+.cover{padding:52px 0 8px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.cover h1{margin:0;font-family:var(--en);font-weight:700;font-size:clamp(44px,7vw,88px);line-height:1}
+.cover p{margin:10px 0 0;color:var(--muted);max-width:34em}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.tools button{font:500 14px var(--body);border:1px solid var(--line);background:var(--white);color:var(--ink);border-radius:999px;padding:9px 18px;cursor:pointer}
+.tools button:hover{border-color:var(--orange)}
+.tools #flipAll{background:var(--ink);border-color:var(--ink);color:var(--white)}
+
+.group{padding:40px 0 12px}
+.group h2{margin:0 0 4px;font-family:var(--round);font-weight:900;font-size:clamp(21px,2.4vw,28px)}
+.group .sub{margin:0 0 18px;color:var(--muted);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media (max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+.card{margin:0;display:flex;flex-direction:column;gap:8px}
+.view{position:relative;width:100%;aspect-ratio:3/4;border-radius:20px;cursor:pointer;touch-action:pan-y;outline:none;-webkit-tap-highlight-color:transparent}
+.view:focus-visible{box-shadow:0 0 0 3px var(--orange)}
+.view .ld{position:absolute;inset:0;display:grid;place-items:center;font-size:13px;color:var(--muted)}
+.card.ready .ld{display:none}
+figcaption{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px;padding:0 4px}
+figcaption b{font-weight:700}
+figcaption small{display:block;color:var(--muted);font-size:12px}
+figcaption button{flex:0 0 auto;font:500 12px var(--body);border:1px solid var(--line);background:var(--white);border-radius:999px;padding:4px 12px;cursor:pointer}
+figcaption button:hover{border-color:var(--orange)}
+
+.note{margin:32px 0 0;padding:16px 20px;border-radius:16px;background:rgba(255,255,255,.6);font-size:14px;color:var(--muted)}
+.foot{padding:64px 0 96px;text-align:center}
+.foot a{display:inline-block;background:var(--orange);color:var(--white);text-decoration:none;font-weight:700;padding:14px 28px;border-radius:999px}
+footer{position:relative;z-index:6;background:var(--ink);color:#CFC8C2;padding:28px 0;font-family:var(--en);font-size:13px;letter-spacing:.06em}
+#err{display:none;margin:24px 0;padding:16px 20px;border-radius:16px;background:#fff3f0;color:#9a3412}
+</style>
+</head>
+<body>
+<canvas id="gl" aria-hidden="true"></canvas>
+
+<div class="bar"><div class="in row">
+  <a class="back" href="index.html">← KAREN LI</a>
+  <nav class="facets" aria-label="頁面">
+    <a href="works.html">作品</a>
+    <a href="goods.html" aria-current="page">周邊</a>
+    <a href="hire.html">企業・代理商</a>
+    <a href="merch.html">個人周邊設計</a>
+    <a href="ja.html" lang="ja">日本語</a>
+  </nav>
+</div></div>
+
+<main class="in">
+  <header class="cover">
+    <div>
+      <h1>GOODS</h1>
+      <p>周邊的魅力在材質。滑鼠移到卡片上（手機用手指拖曳）會跟著傾斜，看雷射膜、白墨與壓克力在光線下的變化；點一下翻面。</p>
+    </div>
+    <div class="tools"><button type="button" id="flipAll">全部翻面</button></div>
+  </header>
+  <p id="err">你的瀏覽器無法顯示 3D 預覽（需要 WebGL）。可以到<a href="works.html">作品頁</a>看平面圖。</p>
+  <div id="groups"></div>
+  <p class="note">3D 為材質示意，實際效果依印刷廠、膜材與白墨設定而定。</p>
+  <div class="foot"><a href="merch.html">想做自己的周邊？看周邊設計服務 →</a></div>
+</main>
+
+<footer><div class="in">KAREN LI ／ 李佳晏　© 2026</div></footer>
+
+<script type="importmap">{"imports":{"three":"./js/vendor/three.module.min.js"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import { FILMS, VERT, FRAG } from './js/goods-shaders.js';
+
+const W = 'img/works/';
+// kind: laser＝雷射卡（整張是雷射膜，深色處自動當白墨）／diecut＝異形雷射卡（依透明背景裁切）／acrylic＝壓克力（白底自動去背）
+const GROUPS = [
+  { title: '雷射卡', sub: '整張是彩虹雷射膜，深色處上白墨不透光，亮部會透出雷射光。', items: [
+    { label: '蔚藍檔案 小卡', note: '彩虹雷射', kind: 'laser', film: 'holo', art: W+'bluearchive-festival/paper-card-04.jpg', back: W+'bluearchive-festival/backing-card-02.jpg' },
+    { label: '蔚藍檔案 小卡', note: '亮片雷射', kind: 'laser', film: 'glitter', art: W+'bluearchive-festival/paper-card-05.jpg', back: W+'bluearchive-festival/backing-card-03.jpg' },
+    { label: '蔚藍檔案 小卡', note: '碎玻璃雷射', kind: 'laser', film: 'shatter', art: W+'bluearchive-festival/paper-card-08.jpg', back: W+'bluearchive-festival/backing-card-02.jpg' },
+    { label: '蔚藍檔案 小卡', note: '彩虹雷射', kind: 'laser', film: 'holo', art: W+'bluearchive-festival/paper-card-09.jpg', back: W+'bluearchive-festival/backing-card-03.jpg' },
+  ]},
+  { title: '異形卡', sub: '依刀模裁切外型，雷射膜只在印刷範圍內。', items: [
+    { label: '明日方舟 餐點小插卡', note: '彩虹雷射', kind: 'diecut', film: 'holo', art: W+'arknights-haoxiang/card-04.png' },
+    { label: '明日方舟 餐點小插卡', note: '亮片雷射', kind: 'diecut', film: 'glitter', art: W+'arknights-haoxiang/card-05.png' },
+    { label: '明日方舟 餐點小插卡', note: '碎玻璃雷射', kind: 'diecut', film: 'shatter', art: W+'arknights-haoxiang/card-06.png' },
+    { label: '明日方舟 餐點小插卡', note: '彩虹雷射', kind: 'diecut', film: 'holo', art: W+'arknights-haoxiang/card-07.png' },
+  ]},
+  { title: '壓克力吊飾', sub: '透明壓克力＋白墨打底，翻到背面會看到左右相反的圖。', items: [
+    { label: '碧藍航線 壓克力吊飾', note: '3mm 壓克力', kind: 'acrylic', art: W+'azurlane-shabu/acrylic-charm-01.jpg' },
+    { label: '碧藍航線 壓克力吊飾', note: '3mm 壓克力', kind: 'acrylic', art: W+'azurlane-shabu/acrylic-charm-02.jpg' },
+    { label: '蔚藍檔案 壓克力吊飾', note: '3mm 壓克力', kind: 'acrylic', art: W+'bluearchive-festival/acrylic-charm-01.jpg' },
+    { label: '蔚藍檔案 壓克力吊飾', note: '3mm 壓克力', kind: 'acrylic', art: W+'bluearchive-festival/acrylic-charm-02.jpg' },
+  ]},
+];
+
+const deg = THREE.MathUtils.degToRad;
+const canvasEl = document.getElementById('gl');
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ canvas: canvasEl, antialias: true, alpha: true });
+} catch (e) {
+  document.getElementById('err').style.display = 'block';
+  throw e;
+}
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.setClearColor(0, 0);
+renderer.setScissorTest(true);
+const maxAniso = renderer.capabilities.getMaxAnisotropy();
+const blank = new THREE.DataTexture(new Uint8Array([0, 0, 0, 0]), 1, 1);
+blank.needsUpdate = true;
+
+function loadImage(src) {
+  return new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = () => rej(new Error('圖片載入失敗：' + src)); im.src = src; });
+}
+function toCanvas(im, maxSide = 1400) {
+  const s = Math.min(1, maxSide / Math.max(im.naturalWidth, im.naturalHeight));
+  const c = document.createElement('canvas');
+  c.width = Math.round(im.naturalWidth * s); c.height = Math.round(im.naturalHeight * s);
+  c.getContext('2d', { willReadFrequently: true }).drawImage(im, 0, 0, c.width, c.height);
+  return c;
+}
+// 雷射卡白墨：深且不透明的地方上白墨（同 demo 的算法）
+function whiteFromDark(src) {
+  const c = document.createElement('canvas'); c.width = src.width; c.height = src.height;
+  const x = c.getContext('2d'); x.drawImage(src, 0, 0);
+  const d = x.getImageData(0, 0, c.width, c.height), p = d.data;
+  for (let i = 0; i < p.length; i += 4) {
+    const lum = 0.299 * p[i] + 0.587 * p[i + 1] + 0.114 * p[i + 2];
+    const o = p[i + 3] / 255 * (1 - lum / 255);
+    const a = Math.min(1, Math.max(0, (o - 0.35) / 0.3));
+    p[i] = p[i + 1] = p[i + 2] = 255; p[i + 3] = Math.round(a * 255);
+  }
+  x.putImageData(d, 0, 0); return c;
+}
+// 壓克力：從邊緣把白底填成透明，留下角色＋白邊的外型
+function cutWhiteBackground(src) {
+  const w = src.width, h = src.height;
+  const x = src.getContext('2d', { willReadFrequently: true });
+  const d = x.getImageData(0, 0, w, h), p = d.data;
+  const seen = new Uint8Array(w * h), stack = [];
+  const isBg = i => p[i * 4] > 238 && p[i * 4 + 1] > 238 && p[i * 4 + 2] > 238;
+  for (let i = 0; i < w; i++) { stack.push(i, (h - 1) * w + i); }
+  for (let j = 0; j < h; j++) { stack.push(j * w, j * w + w - 1); }
+  while (stack.length) {
+    const i = stack.pop();
+    if (seen[i] || !isBg(i)) continue;
+    seen[i] = 1; p[i * 4 + 3] = 0;
+    const cx = i % w, cy = (i / w) | 0;
+    if (cx > 0) stack.push(i - 1); if (cx < w - 1) stack.push(i + 1);
+    if (cy > 0) stack.push(i - w); if (cy < h - 1) stack.push(i + w);
+  }
+  x.putImageData(d, 0, 0);
+  return src;
+}
+function alphaMask(src) {
+  const c = document.createElement('canvas'); c.width = src.width; c.height = src.height;
+  const x = c.getContext('2d'); x.drawImage(src, 0, 0);
+  const d = x.getImageData(0, 0, c.width, c.height), p = d.data;
+  for (let i = 0; i < p.length; i += 4) { p[i] = p[i + 1] = p[i + 2] = 255; }
+  x.putImageData(d, 0, 0); return c;
+}
+function tex(img, srgb) {
+  const t = new THREE.CanvasTexture(img);
+  t.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace;
+  t.anisotropy = maxAniso; t.needsUpdate = true; return t;
+}
+function roundRect(w, h, r) {
+  const s = new THREE.Shape();
+  s.moveTo(r, 0); s.lineTo(w - r, 0); s.quadraticCurveTo(w, 0, w, -r);
+  s.lineTo(w, -(h - r)); s.quadraticCurveTo(w, -h, w - r, -h);
+  s.lineTo(r, -h); s.quadraticCurveTo(0, -h, 0, -(h - r));
+  s.lineTo(0, -r); s.quadraticCurveTo(0, 0, r, 0); s.closePath(); return s;
+}
+function rect(w, h) { const s = new THREE.Shape(); s.moveTo(0, 0); s.lineTo(w, 0); s.lineTo(w, -h); s.lineTo(0, -h); s.closePath(); return s; }
+
+function material(print, white, opt) {
+  return new THREE.ShaderMaterial({
+    vertexShader: VERT, fragmentShader: FRAG, side: THREE.DoubleSide, transparent: true,
+    uniforms: {
+      uPrint: { value: print }, uFoil: { value: blank }, uWhite: { value: white || blank },
+      uRegion: { value: new THREE.Vector4(0, 0, opt.w, opt.h) },
+      uLightPos: { value: opt.light.clone() }, uLightIntensity: { value: 1 },
+      uFilmColor: { value: FILMS.map(f => new THREE.Vector3(...f.color)) },
+      uFilmKind: { value: FILMS.map(f => f.kind) }, uFilmRough: { value: FILMS.map(f => f.roughness) },
+      uAcrylic: { value: opt.acrylic ? 1 : 0 }, uPaperGloss: { value: opt.gloss ?? 0.1 },
+      uSubstrate: { value: opt.substrate ?? -1 }, uInkClarity: { value: 0.45 },
+      uCut: { value: opt.cut ? 1 : 0 }, uSheet: { value: opt.sheet ?? 0 },
+      uFlipX: { value: opt.flipX || 0 },
+    },
+  });
+}
+
+const cards = [];
+async function build(item, el, index) {
+  const view = el.querySelector('.view');
+  const im = await loadImage(item.art);
+  let art = toCanvas(im);
+  const aspect = art.width / art.height;
+  // 實際尺寸（mm）：卡片 63×88，其他依圖片比例
+  let h = item.kind === 'acrylic' ? 62 : 88, w = h * aspect;
+  if (item.kind === 'laser') { w = 63; h = 88; }
+  if (item.kind === 'acrylic') art = cutWhiteBackground(art);
+  const thick = item.kind === 'acrylic' ? 3 : 0.35;
+  const scene = new THREE.Scene();
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x888fa0, 0.6));
+  const L = (() => { const a = deg(-35), e = deg(32); return new THREE.Vector3(Math.sin(a) * Math.cos(e), Math.sin(e), Math.cos(a) * Math.cos(e)).multiplyScalar(Math.max(w, h) * 0.85); })();
+  const pl = new THREE.PointLight(0xffffff, 2.2, 0, 0); pl.position.copy(L); scene.add(pl);
+  const outer = new THREE.Group(), inner = new THREE.Group();
+  inner.position.set(-w / 2, h / 2, 0); outer.add(inner); scene.add(outer);
+  const filmIdx = Math.max(0, FILMS.findIndex(f => f.id === (item.film || 'holo')));
+  const printT = tex(art, true);
+
+  if (item.kind === 'laser') {
+    const shape = roundRect(w, h, 3);
+    const side = new THREE.Mesh(new THREE.ExtrudeGeometry(shape, { depth: thick, bevelEnabled: false, curveSegments: 12 }), new THREE.MeshStandardMaterial({ color: 0xf5f3ef, roughness: 0.85 }));
+    side.position.z = -thick / 2; inner.add(side);
+    const front = new THREE.Mesh(new THREE.ShapeGeometry(shape, 12), material(printT, tex(whiteFromDark(art), false), { w, h, light: L, substrate: filmIdx }));
+    front.position.z = thick / 2 + 0.01; inner.add(front);
+    if (item.back) {
+      const bc = toCanvas(await loadImage(item.back));
+      const bg = new THREE.ShapeGeometry(shape, 12); bg.rotateY(Math.PI); bg.translate(w, 0, 0);
+      const back = new THREE.Mesh(bg, material(tex(bc, true), null, { w, h, light: L, flipX: w, gloss: 0.2 }));
+      back.position.z = -thick / 2 - 0.01; inner.add(back);
+    }
+  } else if (item.kind === 'diecut') {
+    const shape = rect(w, h);
+    const front = new THREE.Mesh(new THREE.ShapeGeometry(shape), material(printT, tex(whiteFromDark(art), false), { w, h, light: L, substrate: filmIdx, cut: true }));
+    front.position.z = 0.2; inner.add(front);
+    const bg = new THREE.ShapeGeometry(shape); bg.rotateY(Math.PI); bg.translate(w, 0, 0);
+    const back = new THREE.Mesh(bg, material(tex(alphaMask(art), true), null, { w, h, light: L, flipX: w, cut: true, gloss: 0.05 }));
+    back.position.z = -0.2; inner.add(back);
+  } else {
+    const shape = rect(w, h);
+    const whiteT = tex(alphaMask(art), false);
+    const front = new THREE.Mesh(new THREE.ShapeGeometry(shape), material(printT, whiteT, { w, h, light: L, acrylic: true, gloss: 0.9, sheet: 0 }));
+    front.position.z = thick / 2; inner.add(front);
+    const bg = new THREE.ShapeGeometry(shape); bg.rotateY(Math.PI); bg.translate(w, 0, 0);
+    const back = new THREE.Mesh(bg, material(printT, whiteT, { w, h, light: L, acrylic: true, gloss: 0.9, flipX: w }));
+    back.position.z = -thick / 2; inner.add(back);
+  }
+
+  const camera = new THREE.PerspectiveCamera(28, 3 / 4, 1, 5000);
+  const c = { el, view, scene, camera, outer, w, h, rx: 0, ry: 0, tx: 0, ty: 0, flip: 0, flipTo: 0, hover: false, phase: index * 1.7 };
+  cards.push(c); bind(c); el.classList.add('ready');
+}
+
+function bind(c) {
+  const v = c.view; let down = null;
+  const aim = e => { const r = v.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width * 2 - 1, y = -((e.clientY - r.top) / r.height * 2 - 1); c.ty = deg(28) * Math.max(-1, Math.min(1, x)); c.tx = -deg(18) * Math.max(-1, Math.min(1, y)); };
+  v.addEventListener('pointerenter', e => { c.hover = true; aim(e); });
+  v.addEventListener('pointermove', e => { if (e.pointerType === 'mouse' || down) { c.hover = true; aim(e); } });
+  v.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') c.hover = false; });
+  v.addEventListener('pointerdown', e => { down = { x: e.clientX, y: e.clientY }; c.hover = true; aim(e); if (e.pointerType !== 'mouse') v.setPointerCapture(e.pointerId); });
+  const up = (e, ok) => { if (down && ok && Math.hypot(e.clientX - down.x, e.clientY - down.y) < 10) flip(c); down = null; if (e.pointerType !== 'mouse') c.hover = false; };
+  v.addEventListener('pointerup', e => up(e, true)); v.addEventListener('pointercancel', e => up(e, false));
+  v.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(c); } });
+  c.el.querySelector('.flip').addEventListener('click', () => flip(c));
+}
+function flip(c, to) {
+  c.flipTo = to ?? (c.flipTo > 0.5 ? 0 : 1);
+  c.el.querySelector('.flip').textContent = c.flipTo > 0.5 ? '翻回正面' : '翻面';
+}
+document.getElementById('flipAll').addEventListener('click', e => {
+  const any = cards.some(c => c.flipTo < 0.5);
+  cards.forEach((c, i) => setTimeout(() => flip(c, any ? 1 : 0), i * 70));
+  e.currentTarget.textContent = any ? '全部翻回正面' : '全部翻面';
+});
+
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let last = performance.now();
+function frame(now) {
+  requestAnimationFrame(frame);
+  const dt = Math.min(0.1, (now - last) / 1000); last = now;
+  const W = window.innerWidth, H = window.innerHeight, pr = renderer.getPixelRatio();
+  if (canvasEl.width !== Math.round(W * pr) || canvasEl.height !== Math.round(H * pr)) renderer.setSize(W, H, false);
+  renderer.setScissor(0, 0, W, H); renderer.setViewport(0, 0, W, H); renderer.clear();
+  const t = now / 1000;
+  for (const c of cards) {
+    const ax = c.hover ? c.tx : (reduce ? 0 : deg(5) * Math.cos(t * 0.9 + c.phase));
+    const ay = c.hover ? c.ty : (reduce ? 0 : deg(16) * Math.sin(t * 0.7 + c.phase));
+    const k = 1 - Math.exp(-dt * (c.hover ? 10 : 3));
+    c.rx += (ax - c.rx) * k; c.ry += (ay - c.ry) * k;
+    const sp = dt / 0.85;
+    c.flip = c.flipTo > c.flip ? Math.min(c.flipTo, c.flip + sp) : Math.max(c.flipTo, c.flip - sp);
+    const e = c.flip * c.flip * (3 - 2 * c.flip);
+    c.outer.rotation.set(c.rx + deg(10) * Math.sin(e * Math.PI), c.ry + e * Math.PI, 0);
+    const r = c.view.getBoundingClientRect();
+    if (r.bottom < 60 || r.top > H || r.right < 0 || r.left > W || r.width < 2) continue;
+    // 只畫在 sticky 導覽列下方
+    const top = Math.max(r.top, 60), bottom = r.bottom, x = r.left, y = H - bottom;
+    renderer.setViewport(x, H - r.bottom, r.width, r.height);
+    renderer.setScissor(x, y, r.width, bottom - top);
+    const cam = c.camera; cam.aspect = r.width / r.height;
+    const fill = 0.78, half = deg(cam.fov / 2);
+    const dist = Math.max(c.h / fill / (2 * Math.tan(half)), c.w / fill / (2 * Math.tan(half) * cam.aspect));
+    cam.position.set(0, 0, dist); cam.near = dist / 50; cam.far = dist * 20; cam.lookAt(0, 0, 0); cam.updateProjectionMatrix();
+    renderer.render(c.scene, cam);
+  }
+}
+
+const root = document.getElementById('groups');
+let n = 0; const jobs = [];
+for (const g of GROUPS) {
+  const sec = document.createElement('section'); sec.className = 'group';
+  sec.innerHTML = `<h2>${g.title}</h2><p class="sub">${g.sub}</p><div class="grid"></div>`;
+  root.appendChild(sec);
+  const grid = sec.querySelector('.grid');
+  for (const it of g.items) {
+    const fig = document.createElement('figure'); fig.className = 'card';
+    fig.innerHTML = `<div class="view" role="button" tabindex="0" aria-label="${it.label}（${it.note}）：點一下翻面"><span class="ld">載入中…</span></div><figcaption><span><b>${it.label}</b><small>${it.note}</small></span><button type="button" class="flip">翻面</button></figcaption>`;
+    grid.appendChild(fig);
+    const i = n++;
+    jobs.push(build(it, fig, i).catch(err => { fig.querySelector('.ld').textContent = '載入失敗'; console.error(err); }));
+  }
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
