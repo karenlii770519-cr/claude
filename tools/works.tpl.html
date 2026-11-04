@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Karen Li 作品</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="李佳晏 Karen Li 作品集：遊戲 IP 餐飲聯名、活動周邊、遊戲 KV・Banner、品牌廣告。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Noto+Sans+TC:wght@400;500;700&family=Outfit:wght@400;600;700&display=swap">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script src="gate.js"></script>
+<style>
+/* 作品頁：圖說話，文字最少 */
+:root{
+  --orange:#F7942E;--orange-deep:#E57A12;--paper:#F4F1EE;--ink:#2B2522;--muted:#7C746F;--line:#E3D8CE;--white:#fff;
+  --round:"Zen Maru Gothic","Noto Sans TC",sans-serif;--body:"Noto Sans TC",system-ui,sans-serif;--en:"Outfit","Noto Sans TC",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:132px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.7}
+img{display:block;max-width:100%}
+a{color:inherit}
+.in{width:min(1320px,100% - 32px);margin:0 auto}
+
+.bar{position:sticky;top:0;z-index:20;background:rgba(244,241,238,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar .row{display:flex;justify-content:space-between;align-items:center;height:60px;gap:12px}
+.back{font-family:var(--en);font-weight:600;font-size:14px;letter-spacing:.08em;text-decoration:none;color:var(--orange-deep)}
+.facets{display:flex;gap:4px;font-size:13px;font-weight:500}
+.facets a{text-decoration:none;padding:6px 12px;border-radius:999px}
+.facets a[aria-current]{background:var(--ink);color:var(--white)}
+@media (max-width:640px){.facets a:not([aria-current]){display:none}}
+.filters{display:flex;gap:8px;overflow-x:auto;padding:0 0 12px;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.filters button{flex:0 0 auto;border:1px solid var(--line);background:var(--white);color:var(--ink);border-radius:999px;padding:7px 16px;font:500 14px var(--body);cursor:pointer}
+.filters button i{font-style:normal;font-family:var(--en);color:var(--muted);margin-left:2px}
+.filters button.on{background:var(--orange);border-color:var(--orange);color:var(--white)}
+.filters button.on i{color:rgba(255,255,255,.8)}
+
+.cover{padding:56px 0 24px}
+.cover h1{margin:0;font-family:var(--en);font-weight:700;font-size:clamp(44px,7vw,88px);line-height:1;letter-spacing:.01em}
+.cover p{margin:10px 0 0;color:var(--muted)}
+.cover p b{font-family:var(--en);color:var(--orange-deep)}
+
+.proj{padding:44px 0 20px;border-top:1px solid var(--line)}
+.proj[hidden]{display:none}
+.ph-head{display:grid;grid-template-columns:1fr auto;gap:2px 24px;align-items:baseline;margin-bottom:18px}
+.ph-head h2{margin:0;font-family:var(--round);font-weight:900;font-size:clamp(21px,2.4vw,28px);line-height:1.4}
+.meta{margin:0;font-family:var(--en);font-size:13px;color:var(--muted);letter-spacing:.04em;text-align:right}
+.role{grid-column:1/-1;margin:4px 0 0;font-size:14px;color:var(--muted)}
+.role b{display:inline-block;font-size:12px;font-weight:700;color:var(--white);background:var(--ink);border-radius:4px;padding:0 7px;margin-right:8px}
+@media (max-width:640px){.ph-head{grid-template-columns:1fr}.meta{text-align:left}}
+
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+.grid figure{margin:0;min-width:0}
+.grid button{display:block;width:100%;padding:0;border:0;background:none;border-radius:10px;overflow:hidden;cursor:zoom-in;box-shadow:0 1px 3px rgba(43,37,34,.08),0 8px 24px rgba(43,37,34,.06);-webkit-mask-image:-webkit-radial-gradient(white,black)}
+.grid img{display:block;width:100%;height:auto;transition:opacity .2s}
+.grid button:hover img{opacity:.88}
+.grid button:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+@media (max-width:1100px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.grid{grid-template-columns:1fr;gap:12px}}
+
+/* lightbox */
+dialog{border:0;padding:0;margin:0;width:100vw;height:100dvh;max-width:none;max-height:none;background:rgba(20,16,14,.94);color:var(--white)}
+dialog::backdrop{background:rgba(20,16,14,.94)}
+.lb{position:relative;width:100%;height:100%;display:grid;grid-template-rows:auto 1fr auto}
+.lb-top{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;gap:12px;font-size:14px}
+.lb-top .t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-top .n{font-family:var(--en);color:#B9B0AA;margin-left:8px}
+.lb-stage{position:relative;display:grid;place-items:center;min-height:0;padding:0 56px;touch-action:pan-y}
+.lb-stage img,.lb-stage video{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px;background:#2B2522}
+.lb-stage [hidden]{display:none}
+.grid .vid button{position:relative}
+.grid .vid button::after{content:"▶";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:rgba(43,37,34,.72);color:#fff;font-size:20px;display:grid;place-items:center;padding-left:4px;box-sizing:border-box}
+.lb button{border:0;cursor:pointer;color:var(--white);background:rgba(255,255,255,.12);border-radius:999px;width:44px;height:44px;font-size:20px;display:grid;place-items:center}
+.lb button:hover{background:var(--orange)}
+.lb .prev,.lb .next{position:absolute;top:50%;transform:translateY(-50%)}
+.lb .prev{left:8px}.lb .next{right:8px}
+.lb-cap{padding:12px 16px 18px;text-align:center;color:#CFC8C2;font-size:14px}
+@media (max-width:640px){.lb-stage{padding:0 8px}.lb .prev,.lb .next{top:auto;bottom:-56px;transform:none}.lb .prev{left:16px}.lb .next{right:16px}}
+
+.foot{padding:72px 0 96px;text-align:center}
+.foot a{display:inline-block;background:var(--orange);color:var(--white);text-decoration:none;font-weight:700;padding:14px 28px;border-radius:999px}
+.foot a:hover{background:var(--orange-deep)}
+footer{background:var(--ink);color:#CFC8C2;padding:28px 0;font-family:var(--en);font-size:13px;letter-spacing:.06em}
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="in">
+  <div class="row">
+    <a class="back" href="index.html">← KAREN LI</a>
+    <nav class="facets" aria-label="頁面">
+      <a href="works.html" aria-current="page">作品</a>
+    <a href="goods.html">周邊</a>
+      <a href="hire.html">企業・代理商</a>
+      <a href="merch.html">個人周邊設計</a>
+      <a href="ja.html" lang="ja">日本語</a>
+    </nav>
+  </div>
+  <div class="filters" role="toolbar" aria-label="分類篩選">{{CHIPS}}</div>
+</div></div>
+
+<main class="in">
+  <header class="cover">
+    <h1>WORKS</h1>
+    <p>點圖片可放大瀏覽，影片可直接播放。共 <b>{{TOTAL}}</b> 件。</p>
+  </header>
+{{SECTIONS}}
+  <div class="foot"><a href="mailto:karen770519@icloud.com">想合作？寫信給我 →</a></div>
+</main>
+
+<footer><div class="in">KAREN LI ／ 李佳晏　© 2026</div></footer>
+
+<dialog id="lb" aria-label="作品大圖">
+  <div class="lb">
+    <div class="lb-top"><div class="t"><span id="lb-title"></span><span class="n" id="lb-n"></span></div><button type="button" class="close" aria-label="關閉">✕</button></div>
+    <div class="lb-stage"><button type="button" class="prev" aria-label="上一張">←</button><img id="lb-img" alt=""><video id="lb-vid" controls playsinline preload="metadata" hidden></video><button type="button" class="next" aria-label="下一張">→</button></div>
+    <div class="lb-cap" id="lb-cap"></div>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  var chips=document.querySelectorAll('.filters button'),projs=document.querySelectorAll('.proj');
+  chips.forEach(function(c){c.addEventListener('click',function(){
+    chips.forEach(function(x){x.classList.toggle('on',x===c)});
+    var f=c.dataset.f;projs.forEach(function(p){p.hidden=!(f==='all'||p.dataset.cat===f)});
+    window.scrollTo({top:0,behavior:'smooth'});
+  })});
+
+  var dlg=document.getElementById('lb'),img=document.getElementById('lb-img'),vid=document.getElementById('lb-vid'),tt=document.getElementById('lb-title'),nn=document.getElementById('lb-n'),cap=document.getElementById('lb-cap');
+  var cur=null,idx=0,list=[];
+  function show(){var it=list[idx];vid.pause();if(it[2]){img.hidden=true;vid.hidden=false;vid.src=it[0];vid.play().catch(function(){});}else{vid.hidden=true;vid.removeAttribute('src');img.hidden=false;img.src=it[0];}img.alt=tt.textContent+'｜'+it[1];cap.textContent=it[1];nn.textContent=(idx+1)+' / '+list.length;
+    var nx=list[(idx+1)%list.length];if(nx&&!nx[2]){var pre=new Image();pre.src=nx[0];}}
+  function open(p,i){cur=p;list=JSON.parse(p.dataset.full);idx=i;tt.textContent=p.querySelector('h2').textContent;show();
+    if(dlg.showModal)dlg.showModal();else dlg.setAttribute('open','');}
+  function step(d){idx=(idx+d+list.length)%list.length;show();}
+  function close(){vid.pause();if(dlg.close)dlg.close();else dlg.removeAttribute('open');}
+  projs.forEach(function(p){p.querySelectorAll('.grid button').forEach(function(b){b.addEventListener('click',function(){open(p,+b.dataset.i)})})});
+  dlg.querySelector('.prev').onclick=function(){step(-1)};
+  dlg.querySelector('.next').onclick=function(){step(1)};
+  dlg.querySelector('.close').onclick=close;
+  dlg.addEventListener('close',function(){vid.pause()});
+  dlg.addEventListener('click',function(e){if(e.target.classList.contains('lb-stage')||e.target.classList.contains('lb'))close()});
+  document.addEventListener('keydown',function(e){if(!dlg.open)return;if(e.key==='ArrowLeft')step(-1);else if(e.key==='ArrowRight')step(1)});
+  var sx=null;var st=dlg.querySelector('.lb-stage');
+  st.addEventListener('pointerdown',function(e){sx=e.clientX});
+  st.addEventListener('pointerup',function(e){if(sx===null)return;var dx=e.clientX-sx;sx=null;if(Math.abs(dx)>50)step(dx<0?1:-1)});
+})();
+</script>
+</body>
+</html>
