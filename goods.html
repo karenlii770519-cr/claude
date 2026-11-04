@@ -173,6 +173,19 @@ function whiteFromLight(src) {
   }
   x.putImageData(d, 0, 0); return c;
 }
+// 吸管套：把折線那幾排、中間主體以外的虛線擦掉
+function eraseFoldDashes(src, frac) {
+  const w = src.width, h = src.height, x = src.getContext('2d', { willReadFrequently: true });
+  const d = x.getImageData(0, 0, w, h), p = d.data, cx = w >> 1;
+  const y0 = Math.max(0, Math.round(h * frac - h * 0.012)), y1 = Math.min(h - 1, Math.round(h * frac + h * 0.012));
+  for (let y = y0; y <= y1; y++) {
+    let l = cx, r = cx;
+    while (l > 0 && p[(y * w + l - 1) * 4 + 3] > 20) l--;
+    while (r < w - 1 && p[(y * w + r + 1) * 4 + 3] > 20) r++;
+    for (let i = 0; i < w; i++) if (i < l || i > r) p[(y * w + i) * 4 + 3] = 0;
+  }
+  x.putImageData(d, 0, 0); return src;
+}
 function cutWhiteBackground(src) {
   const w = src.width, h = src.height;
   const x = src.getContext('2d', { willReadFrequently: true });
@@ -240,6 +253,7 @@ async function build(item, el, index) {
   let h = item.kind === 'acrylic' ? 62 : item.kind === 'sleeve' ? 120 : 88, w = h * aspect;
   if (item.kind === 'laser') { w = 63; h = 88; }
   if (item.kind === 'acrylic') art = cutWhiteBackground(art);
+  if (item.kind === 'sleeve') art = eraseFoldDashes(art, item.fold ?? 0.5);
   const thick = item.kind === 'acrylic' ? 3 : 0.35;
   const scene = new THREE.Scene();
   scene.add(new THREE.HemisphereLight(0xffffff, 0x888fa0, 0.6));
@@ -270,9 +284,13 @@ async function build(item, el, index) {
     const whiteP = tex(alphaMask(art), true);
     const opt = { w, h, light: L, cut: true, gloss: 0.03 };
     const lower = half(yf, h), upper = half(0, yf);
-    inner.add(new THREE.Mesh(lower, material(printT, null, { ...opt, side: THREE.FrontSide })));
-    inner.add(new THREE.Mesh(lower, material(whiteP, null, { ...opt, side: THREE.BackSide })));
-    const pivot = new THREE.Group(); pivot.position.set(0, -yf, -0.4); pivot.rotation.x = Math.PI; inner.add(pivot);
+    // 折線當鉸鏈，兩片各張開一點，下緣留出放吸管的空隙
+    const open = deg(item.open ?? 5);
+    const front = new THREE.Group(); front.position.set(0, -yf, 0); front.rotation.x = -open; inner.add(front);
+    const lo1 = new THREE.Mesh(lower, material(printT, null, { ...opt, side: THREE.FrontSide })); lo1.position.y = yf;
+    const lo2 = new THREE.Mesh(lower, material(whiteP, null, { ...opt, side: THREE.BackSide })); lo2.position.y = yf;
+    front.add(lo1, lo2);
+    const pivot = new THREE.Group(); pivot.position.set(0, -yf, 0); pivot.rotation.x = Math.PI + open; inner.add(pivot);
     const up1 = new THREE.Mesh(upper, material(printT, null, { ...opt, side: THREE.FrontSide })); up1.position.y = yf;
     const up2 = new THREE.Mesh(upper, material(whiteP, null, { ...opt, side: THREE.BackSide })); up2.position.y = yf;
     pivot.add(up1, up2);
