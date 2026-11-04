@@ -102,21 +102,16 @@ import * as THREE from 'three';
 import { FILMS, VERT, FRAG } from './js/goods-shaders.js';
 
 const W = 'img/works/';
+// mask（選填）＝白墨版：黑色＝上白墨不透光，白色或透明＝透出雷射膜
 // kind: laser＝雷射卡（整張是雷射膜，深色處自動當白墨）／diecut＝異形雷射卡（依透明背景裁切）／acrylic＝壓克力（白底自動去背）
 const GROUPS = [
-  { title: '雷射卡', sub: '整張是彩虹雷射膜，深色處上白墨不透光，亮部會透出雷射光。', items: [
-    { label: '蔚藍檔案 小卡', note: '彩虹雷射', kind: 'laser', film: 'holo', art: W+'bluearchive-festival/paper-card-04.jpg', back: W+'bluearchive-festival/backing-card-02.jpg' },
-    { label: '蔚藍檔案 小卡', note: '亮片雷射', kind: 'laser', film: 'glitter', art: W+'bluearchive-festival/paper-card-05.jpg', back: W+'bluearchive-festival/backing-card-03.jpg' },
-    { label: '蔚藍檔案 小卡', note: '碎玻璃雷射', kind: 'laser', film: 'shatter', art: W+'bluearchive-festival/paper-card-08.jpg', back: W+'bluearchive-festival/backing-card-02.jpg' },
-    { label: '蔚藍檔案 小卡', note: '彩虹雷射', kind: 'laser', film: 'holo', art: W+'bluearchive-festival/paper-card-09.jpg', back: W+'bluearchive-festival/backing-card-03.jpg' },
-  ]},
-  { title: '異形卡', sub: '依刀模裁切外型，雷射膜只在印刷範圍內。', items: [
+  { title: '異形卡', sub: '依刀模裁切外型；人物上白墨不透光，只有背景透出雷射。', items: [
     { label: '明日方舟 餐點小插卡', note: '彩虹雷射', kind: 'diecut', film: 'holo', art: W+'arknights-haoxiang/card-04.png' },
     { label: '明日方舟 餐點小插卡', note: '亮片雷射', kind: 'diecut', film: 'glitter', art: W+'arknights-haoxiang/card-05.png' },
     { label: '明日方舟 餐點小插卡', note: '碎玻璃雷射', kind: 'diecut', film: 'shatter', art: W+'arknights-haoxiang/card-06.png' },
     { label: '明日方舟 餐點小插卡', note: '彩虹雷射', kind: 'diecut', film: 'holo', art: W+'arknights-haoxiang/card-07.png' },
   ]},
-  { title: '壓克力吊飾', sub: '透明壓克力＋白墨打底，翻到背面會看到左右相反的圖。', items: [
+  { title: '壓克力吊飾', sub: '單面印刷＋白墨打底；翻到背面只會看到白墨。', items: [
     { label: '碧藍航線 壓克力吊飾', note: '3mm 壓克力', kind: 'acrylic', art: W+'azurlane-shabu/acrylic-charm-01.jpg' },
     { label: '碧藍航線 壓克力吊飾', note: '3mm 壓克力', kind: 'acrylic', art: W+'azurlane-shabu/acrylic-charm-02.jpg' },
     { label: '蔚藍檔案 壓克力吊飾', note: '3mm 壓克力', kind: 'acrylic', art: W+'bluearchive-festival/acrylic-charm-01.jpg' },
@@ -166,6 +161,18 @@ function whiteFromDark(src) {
   x.putImageData(d, 0, 0); return c;
 }
 // 壓克力：從邊緣把白底填成透明，留下角色＋白邊的外型
+// 亮部上白墨：人物（亮色）不透光，深色底紋透出雷射
+function whiteFromLight(src) {
+  const c = document.createElement('canvas'); c.width = src.width; c.height = src.height;
+  const x = c.getContext('2d'); x.drawImage(src, 0, 0);
+  const d = x.getImageData(0, 0, c.width, c.height), p = d.data;
+  for (let i = 0; i < p.length; i += 4) {
+    const lum = 0.299 * p[i] + 0.587 * p[i + 1] + 0.114 * p[i + 2];
+    const a = Math.min(1, Math.max(0, (lum - 70) / 60)) * (p[i + 3] / 255);
+    p[i] = p[i + 1] = p[i + 2] = 0; p[i + 3] = Math.round(a * 255);
+  }
+  x.putImageData(d, 0, 0); return c;
+}
 function cutWhiteBackground(src) {
   const w = src.width, h = src.height;
   const x = src.getContext('2d', { willReadFrequently: true });
@@ -247,7 +254,8 @@ async function build(item, el, index) {
     const shape = roundRect(w, h, 3);
     const side = new THREE.Mesh(new THREE.ExtrudeGeometry(shape, { depth: thick, bevelEnabled: false, curveSegments: 12 }), new THREE.MeshStandardMaterial({ color: 0xf5f3ef, roughness: 0.85 }));
     side.position.z = -thick / 2; inner.add(side);
-    const front = new THREE.Mesh(new THREE.ShapeGeometry(shape, 12), material(printT, tex(whiteFromDark(art), false), { w, h, light: L, substrate: filmIdx }));
+    const whiteSrc = item.mask ? toCanvas(await loadImage(item.mask)) : art;
+    const front = new THREE.Mesh(new THREE.ShapeGeometry(shape, 12), material(printT, tex(whiteFromDark(whiteSrc), false), { w, h, light: L, substrate: filmIdx }));
     front.position.z = thick / 2 + 0.01; inner.add(front);
     if (item.back) {
       const bc = toCanvas(await loadImage(item.back));
@@ -257,7 +265,8 @@ async function build(item, el, index) {
     }
   } else if (item.kind === 'diecut') {
     const shape = rect(w, h);
-    const front = new THREE.Mesh(new THREE.ShapeGeometry(shape), material(printT, tex(whiteFromDark(art), false), { w, h, light: L, substrate: filmIdx, cut: true }));
+    const whiteSrc = item.mask ? toCanvas(await loadImage(item.mask)) : whiteFromLight(art);
+    const front = new THREE.Mesh(new THREE.ShapeGeometry(shape), material(printT, tex(whiteFromDark(whiteSrc), false), { w, h, light: L, substrate: filmIdx, cut: true }));
     front.position.z = 0.2; inner.add(front);
     const bg = new THREE.ShapeGeometry(shape); bg.rotateY(Math.PI); bg.translate(w, 0, 0);
     const back = new THREE.Mesh(bg, material(tex(alphaMask(art), true), null, { w, h, light: L, flipX: w, cut: true, gloss: 0.05 }));
@@ -268,7 +277,7 @@ async function build(item, el, index) {
     const front = new THREE.Mesh(new THREE.ShapeGeometry(shape), material(printT, whiteT, { w, h, light: L, acrylic: true, gloss: 0.9, sheet: 0 }));
     front.position.z = thick / 2; inner.add(front);
     const bg = new THREE.ShapeGeometry(shape); bg.rotateY(Math.PI); bg.translate(w, 0, 0);
-    const back = new THREE.Mesh(bg, material(printT, whiteT, { w, h, light: L, acrylic: true, gloss: 0.9, flipX: w }));
+    const back = new THREE.Mesh(bg, material(tex(alphaMask(art), true), whiteT, { w, h, light: L, acrylic: true, gloss: 0.9, flipX: w }));
     back.position.z = -thick / 2; inner.add(back);
   }
 
