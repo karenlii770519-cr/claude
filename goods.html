@@ -284,7 +284,8 @@ async function build(item, el, index) {
     const front = new THREE.Mesh(new THREE.ShapeGeometry(shape), material(printT, whiteT, { w, h, light: L, acrylic: true, gloss: 0.9, sheet: 0 }));
     front.position.z = thick / 2; inner.add(front);
     const bg = new THREE.ShapeGeometry(shape); bg.rotateY(Math.PI); bg.translate(w, 0, 0);
-    const back = new THREE.Mesh(bg, material(tex(alphaMask(art), true), whiteT, { w, h, light: L, acrylic: true, gloss: 0.9, flipX: w }));
+    // 背面幾何已經轉 180°，不要再左右翻：同一個實體位置要對到同一塊白墨，外型才會和正面重合
+    const back = new THREE.Mesh(bg, material(tex(alphaMask(art), true), whiteT, { w, h, light: L, acrylic: true, gloss: 0.9 }));
     back.position.z = -thick / 2; inner.add(back);
   }
 
