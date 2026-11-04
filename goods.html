@@ -84,7 +84,7 @@ footer{position:relative;z-index:6;background:var(--ink);color:#CFC8C2;padding:2
   <header class="cover">
     <div>
       <h1>GOODS</h1>
-      <p>周邊的魅力在材質。滑鼠移到卡片上（手機用手指拖曳）會跟著傾斜，看雷射膜、白墨與壓克力在光線下的變化；點一下翻面。</p>
+      <p>周邊的魅力在材質。滑鼠移到卡片上（手機用手指拖曳）會跟著傾斜，看紙材、白墨與壓克力在光線下的變化；點一下翻面。</p>
     </div>
     <div class="tools"><button type="button" id="flipAll">全部翻面</button></div>
   </header>
@@ -103,13 +103,13 @@ import { FILMS, VERT, FRAG } from './js/goods-shaders.js';
 
 const W = 'img/works/';
 // mask（選填）＝白墨版：黑色＝上白墨不透光，白色或透明＝透出雷射膜
-// kind: laser＝雷射卡（整張是雷射膜，深色處自動當白墨）／diecut＝異形雷射卡（依透明背景裁切）／acrylic＝壓克力（白底自動去背）
+// kind: laser＝雷射卡（整張是雷射膜，深色處自動當白墨）／sleeve＝對折吸管套（霧面紙，依透明背景裁切）／acrylic＝壓克力（白底自動去背）
 const GROUPS = [
-  { title: '異形卡', sub: '依刀模裁切外型；人物上白墨不透光，只有背景透出雷射。', items: [
-    { label: '明日方舟 餐點小插卡', note: '彩虹雷射', kind: 'diecut', film: 'holo', art: W+'arknights-haoxiang/card-04.png' },
-    { label: '明日方舟 餐點小插卡', note: '亮片雷射', kind: 'diecut', film: 'glitter', art: W+'arknights-haoxiang/card-05.png' },
-    { label: '明日方舟 餐點小插卡', note: '碎玻璃雷射', kind: 'diecut', film: 'shatter', art: W+'arknights-haoxiang/card-06.png' },
-    { label: '明日方舟 餐點小插卡', note: '彩虹雷射', kind: 'diecut', film: 'holo', art: W+'arknights-haoxiang/card-07.png' },
+  { title: '吸管套', sub: '霧面紙，沿虛線對折；正面是角色，翻過來是另一半的 Logo，內側白色。', items: [
+    { label: '明日方舟 吸管套', note: '霧面紙・對折', kind: 'sleeve', fold: 0.494, art: W+'arknights-haoxiang/card-04.png' },
+    { label: '明日方舟 吸管套', note: '霧面紙・對折', kind: 'sleeve', fold: 0.494, art: W+'arknights-haoxiang/card-05.png' },
+    { label: '明日方舟 吸管套', note: '霧面紙・對折', kind: 'sleeve', fold: 0.494, art: W+'arknights-haoxiang/card-06.png' },
+    { label: '明日方舟 吸管套', note: '霧面紙・對折', kind: 'sleeve', fold: 0.494, art: W+'arknights-haoxiang/card-07.png' },
   ]},
   { title: '壓克力吊飾', sub: '單面印刷＋白墨打底；翻到背面只會看到白墨。', items: [
     { label: '碧藍航線 壓克力吊飾', note: '3mm 壓克力', kind: 'acrylic', art: W+'azurlane-shabu/acrylic-charm-01.jpg' },
@@ -215,7 +215,7 @@ function rect(w, h) { const s = new THREE.Shape(); s.moveTo(0, 0); s.lineTo(w, 0
 
 function material(print, white, opt) {
   return new THREE.ShaderMaterial({
-    vertexShader: VERT, fragmentShader: FRAG, side: THREE.DoubleSide, transparent: true,
+    vertexShader: VERT, fragmentShader: FRAG, side: opt.side ?? THREE.DoubleSide, transparent: true,
     uniforms: {
       uPrint: { value: print }, uFoil: { value: blank }, uWhite: { value: white || blank },
       uRegion: { value: new THREE.Vector4(0, 0, opt.w, opt.h) },
@@ -237,7 +237,7 @@ async function build(item, el, index) {
   let art = toCanvas(im);
   const aspect = art.width / art.height;
   // 實際尺寸（mm）：卡片 63×88，其他依圖片比例
-  let h = item.kind === 'acrylic' ? 62 : 88, w = h * aspect;
+  let h = item.kind === 'acrylic' ? 62 : item.kind === 'sleeve' ? 120 : 88, w = h * aspect;
   if (item.kind === 'laser') { w = 63; h = 88; }
   if (item.kind === 'acrylic') art = cutWhiteBackground(art);
   const thick = item.kind === 'acrylic' ? 3 : 0.35;
@@ -263,14 +263,21 @@ async function build(item, el, index) {
       const back = new THREE.Mesh(bg, material(tex(bc, true), null, { w, h, light: L, flipX: w, gloss: 0.2 }));
       back.position.z = -thick / 2 - 0.01; inner.add(back);
     }
-  } else if (item.kind === 'diecut') {
-    const shape = rect(w, h);
-    const whiteSrc = item.mask ? toCanvas(await loadImage(item.mask)) : whiteFromLight(art);
-    const front = new THREE.Mesh(new THREE.ShapeGeometry(shape), material(printT, tex(whiteFromDark(whiteSrc), false), { w, h, light: L, substrate: filmIdx, cut: true }));
-    front.position.z = 0.2; inner.add(front);
-    const bg = new THREE.ShapeGeometry(shape); bg.rotateY(Math.PI); bg.translate(w, 0, 0);
-    const back = new THREE.Mesh(bg, material(tex(alphaMask(art), true), null, { w, h, light: L, flipX: w, cut: true, gloss: 0.05 }));
-    back.position.z = -0.2; inner.add(back);
+  } else if (item.kind === 'sleeve') {
+    // 對折：下半＝正面（角色），上半沿虛線往後折到背面
+    const yf = h * (item.fold ?? 0.5);
+    const half = (y0, y1) => { const sh = new THREE.Shape(); sh.moveTo(0, -y0); sh.lineTo(w, -y0); sh.lineTo(w, -y1); sh.lineTo(0, -y1); sh.closePath(); return new THREE.ShapeGeometry(sh); };
+    const whiteP = tex(alphaMask(art), true);
+    const opt = { w, h, light: L, cut: true, gloss: 0.03 };
+    const lower = half(yf, h), upper = half(0, yf);
+    inner.add(new THREE.Mesh(lower, material(printT, null, { ...opt, side: THREE.FrontSide })));
+    inner.add(new THREE.Mesh(lower, material(whiteP, null, { ...opt, side: THREE.BackSide })));
+    const pivot = new THREE.Group(); pivot.position.set(0, -yf, -0.4); pivot.rotation.x = Math.PI; inner.add(pivot);
+    const up1 = new THREE.Mesh(upper, material(printT, null, { ...opt, side: THREE.FrontSide })); up1.position.y = yf;
+    const up2 = new THREE.Mesh(upper, material(whiteP, null, { ...opt, side: THREE.BackSide })); up2.position.y = yf;
+    pivot.add(up1, up2);
+    inner.position.set(-w / 2, (yf + h) / 2, 0);
+    h = h - yf;
   } else {
     const shape = rect(w, h);
     const whiteT = tex(alphaMask(art), false);
