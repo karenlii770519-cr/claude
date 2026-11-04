@@ -117,11 +117,11 @@ const GROUPS = [
     { label: '明日方舟 吸管套', note: '霧面紙・對折', kind: 'sleeve', fold: 0.494, art: W+'arknights-haoxiang/card-06.png' },
     { label: '明日方舟 吸管套', note: '霧面紙・對折', kind: 'sleeve', fold: 0.494, art: W+'arknights-haoxiang/card-07.png' },
   ]},
-  { title: '壓克力吊飾', sub: '單面印刷＋白墨打底；翻到背面只會看到白墨。', items: [
-    { label: '碧藍航線 壓克力吊飾', note: '3mm 壓克力', kind: 'acrylic', art: W+'azurlane-shabu/acrylic-charm-01.jpg' },
-    { label: '碧藍航線 壓克力吊飾', note: '3mm 壓克力', kind: 'acrylic', art: W+'azurlane-shabu/acrylic-charm-02.jpg' },
-    { label: '蔚藍檔案 壓克力吊飾', note: '3mm 壓克力', kind: 'acrylic', art: W+'bluearchive-festival/acrylic-charm-01.jpg' },
-    { label: '蔚藍檔案 壓克力吊飾', note: '3mm 壓克力', kind: 'acrylic', art: W+'bluearchive-festival/acrylic-charm-02.jpg' },
+  { title: '壓克力吊飾', sub: '3mm 透明壓克力，彩色印在背面、後面再鋪白墨；從正面隔著壓克力看圖，翻到背面是白墨。吊孔穿開口圈。', items: [
+    { label: '碧藍航線 壓克力吊飾', note: '3mm 壓克力＋開口圈', kind: 'acrylic', art: W+'azurlane-shabu/acrylic-charm-01.jpg' },
+    { label: '碧藍航線 壓克力吊飾', note: '3mm 壓克力＋開口圈', kind: 'acrylic', art: W+'azurlane-shabu/acrylic-charm-02.jpg' },
+    { label: '蔚藍檔案 壓克力吊飾', note: '3mm 壓克力＋開口圈', kind: 'acrylic', art: W+'bluearchive-festival/acrylic-charm-01.jpg' },
+    { label: '蔚藍檔案 壓克力吊飾', note: '3mm 壓克力＋開口圈', kind: 'acrylic', art: W+'bluearchive-festival/acrylic-charm-02.jpg' },
   ]},
 ];
 
@@ -192,7 +192,7 @@ function eraseFoldDashes(src, frac) {
   }
   x.putImageData(d, 0, 0); return src;
 }
-function cutWhiteBackground(src) {
+function cutWhiteBackground(src, noFill) {
   const w = src.width, h = src.height;
   const x = src.getContext('2d', { willReadFrequently: true });
   const d = x.getImageData(0, 0, w, h), p = d.data;
@@ -208,7 +208,8 @@ function cutWhiteBackground(src) {
     if (cx > 0) stack.push(i - 1); if (cx < w - 1) stack.push(i + 1);
     if (cy > 0) stack.push(i - w); if (cy < h - 1) stack.push(i + w);
   }
-  // 補洞：邊緣淡色區塊被誤當背景時，每一列左右邊界之間都補回不透明
+  // 補洞：邊緣淡色區塊被誤當背景時，每一列左右邊界之間都補回不透明（壓克力不做，保留刀模外型）
+  if (!noFill) {
   for (let y = 0; y < h; y++) {
     let l = -1, r = -1;
     for (let i = 0; i < w; i++) if (p[(y * w + i) * 4 + 3] > 0) { if (l < 0) l = i; r = i; }
@@ -219,8 +220,108 @@ function cutWhiteBackground(src) {
     for (let y = 0; y < h; y++) if (p[(y * w + i) * 4 + 3] > 0) { if (t < 0) t = y; b = y; }
     for (let y = t; y >= 0 && y <= b; y++) p[(y * w + i) * 4 + 3] = 255;
   }
+  }
   x.putImageData(d, 0, 0);
   return src;
+}
+// 透明邊：刀模內但沒有印刷（近白色）的地方變透明，只留印刷圖
+function clearMargin(src) {
+  const c = document.createElement('canvas'); c.width = src.width; c.height = src.height;
+  const x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(src, 0, 0);
+  const d = x.getImageData(0, 0, c.width, c.height), p = d.data, w = c.width, h = c.height;
+  // 從透明背景往內，把相連的近白色／淺灰（刀模線）都清掉
+  const seen = new Uint8Array(w * h), st = [];
+  const light = i => p[i * 4] > 200 && p[i * 4 + 1] > 200 && p[i * 4 + 2] > 200;
+  for (let i = 0; i < w * h; i++) if (p[i * 4 + 3] === 0) st.push(i);
+  while (st.length) {
+    const i = st.pop(); if (seen[i]) continue; seen[i] = 1;
+    if (p[i * 4 + 3] !== 0) { if (!light(i)) continue; p[i * 4 + 3] = 0; }
+    const cx = i % w, cy = (i / w) | 0;
+    if (cx > 0) st.push(i - 1); if (cx < w - 1) st.push(i + 1); if (cy > 0) st.push(i - w); if (cy < h - 1) st.push(i + w);
+  }
+  x.putImageData(d, 0, 0); return c;
+}
+// 從刀模外型取輪廓（Moore 追邊＋簡化），並找出上方的吊孔
+function acrylicOutline(src, w, h) {
+  const S = 640, sc = S / Math.max(src.width, src.height);
+  const W = Math.max(2, Math.round(src.width * sc)), H = Math.max(2, Math.round(src.height * sc));
+  const cv = document.createElement('canvas'); cv.width = W + 2; cv.height = H + 2;
+  const x = cv.getContext('2d', { willReadFrequently: true }); x.drawImage(src, 1, 1, W, H);
+  const d = x.getImageData(0, 0, W + 2, H + 2).data, GW = W + 2, GH = H + 2;
+  const on = (i, j) => i >= 0 && j >= 0 && i < GW && j < GH && d[(j * GW + i) * 4 + 3] > 100;
+  // 吊孔：外型內部、上方 30% 的淺色小圓區
+  let hole = null;
+  {
+    // 吊耳＝最上方「連續好幾格」的那一列（避開圖片邊緣的雜點）
+    let topY = -1, topX = 0, cnt = 0;
+    for (let j = 0; j < GH && topY < 0; j++) { let run = 0, best = 0; for (let i = 3; i < GW - 3; i++) { run = on(i, j) ? run + 1 : 0; best = Math.max(best, run); } if (best >= 4) topY = j; }
+    for (let i = 3; i < GW - 3; i++) if (on(i, topY)) { topX += i; cnt++; }
+    topX /= Math.max(1, cnt);
+    const lab = new Int32Array(GW * GH).fill(-1); let best = null;
+    // 外面相連的透明區（真正的背景）
+    const outside = new Uint8Array(GW * GH), ost = [0];
+    while (ost.length) { const k = ost.pop(); if (outside[k]) continue; const a = k % GW, b = (k / GW) | 0; if (on(a, b)) continue; outside[k] = 1;
+      if (a > 0) ost.push(k - 1); if (a < GW - 1) ost.push(k + 1); if (b > 0) ost.push(k - GW); if (b < GH - 1) ost.push(k + GW); }
+    // 孔：被外型包住的透明區，或被刀模線圍住的白色區
+    const lt = (i, j) => { const k = (j * GW + i) * 4; if (!on(i, j)) return !outside[j * GW + i]; return d[k] > 225 && d[k + 1] > 225 && d[k + 2] > 225; };
+    for (let j = 1; j < GH * 0.35; j++) for (let i = 1; i < GW - 1; i++) {
+      if (!lt(i, j) || lab[j * GW + i] >= 0) continue;
+      const st = [[i, j]], pts = []; lab[j * GW + i] = 1; let touches = false;
+      while (st.length) { const [a, b] = st.pop(); pts.push([a, b]);
+        for (const [da, db] of [[1,0],[-1,0],[0,1],[0,-1]]) { const na = a + da, nb = b + db;
+          if (na < 0 || nb < 0 || na >= GW || nb >= GH || outside[nb * GW + na]) { touches = true; continue; }
+          if (lt(na, nb) && lab[nb * GW + na] < 0) { lab[nb * GW + na] = 1; st.push([na, nb]); } } }
+      const n = pts.length; if (touches || n < 4 || n > GW * GH * 0.01) continue;
+      let sx = 0, sy = 0, x0 = 1e9, x1 = -1, y0 = 1e9, y1 = -1;
+      for (const [a, b] of pts) { sx += a; sy += b; x0 = Math.min(x0, a); x1 = Math.max(x1, a); y0 = Math.min(y0, b); y1 = Math.max(y1, b); }
+      const bw = x1 - x0 + 1, bh = y1 - y0 + 1, round = n / (bw * bh);
+      if (Math.abs(bw - bh) > Math.max(bw, bh) * 0.5 || round < 0.5) continue;
+      const cand = { x: sx / n, y: sy / n, r: (bw + bh) / 4 };
+      cand.d = Math.hypot(cand.x - topX, cand.y - topY);
+      if (cand.d < Math.max(GW, GH) * 0.12 && (!best || cand.d < best.d)) best = cand;
+    }
+    // 找不到孔就放在吊耳（外型最高點）下方一點
+    if (!best) best = { x: topX, y: topY + Math.max(GW, GH) * 0.03, r: Math.max(GW, GH) * 0.012 };
+    hole = { x: (best.x - 1) / W * w, y: (best.y - 1) / H * h, r: best.r / W * w };
+  }
+  // 外輪廓
+  let si = -1, sj = -1;
+  outer: for (let j = 0; j < GH; j++) for (let i = 0; i < GW; i++) if (on(i, j)) { si = i; sj = j; break outer; }
+  const dirs = [[1,0],[1,1],[0,1],[-1,1],[-1,0],[-1,-1],[0,-1],[1,-1]];
+  const pts = []; let ci = si, cj = sj, dir = 7, guard = 0;
+  do {
+    pts.push([ci, cj]);
+    let k = (dir + 6) % 8, found = false;
+    for (let t = 0; t < 8; t++) { const nd = (k + t) % 8, ni = ci + dirs[nd][0], nj = cj + dirs[nd][1];
+      if (on(ni, nj)) { ci = ni; cj = nj; dir = nd; found = true; break; } }
+    if (!found) break;
+  } while ((ci !== si || cj !== sj) && ++guard < 200000);
+  const simp = rdp(pts, 1.6);
+  const shape = new THREE.Shape();
+  simp.forEach(([a, b], n) => { const X = (a - 1) / W * w, Y = -(b - 1) / H * h; n ? shape.lineTo(X, Y) : shape.moveTo(X, Y); });
+  shape.closePath();
+  if (hole) { const hp = new THREE.Path(); hp.absarc(hole.x, -hole.y, hole.r, 0, Math.PI * 2, true); shape.holes.push(hp); }
+  return { shape, hole };
+}
+function rdp(pts, eps) {
+  if (pts.length < 3) return pts;
+  const [a, b] = [pts[0], pts[pts.length - 1]]; let idx = -1, dm = 0;
+  for (let i = 1; i < pts.length - 1; i++) {
+    const p = pts[i], dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy) || 1;
+    const dd = Math.abs(dy * p[0] - dx * p[1] + b[0] * a[1] - b[1] * a[0]) / L;
+    if (dd > dm) { dm = dd; idx = i; }
+  }
+  if (dm > eps) { const l = rdp(pts.slice(0, idx + 1), eps), r = rdp(pts.slice(idx), eps); return l.slice(0, -1).concat(r); }
+  return [a, b];
+}
+let _env = null;
+function envMap() {
+  if (_env) return _env;
+  const pm = new THREE.PMREMGenerator(renderer), sc = new THREE.Scene();
+  sc.add(new THREE.Mesh(new THREE.BoxGeometry(30, 30, 30), new THREE.MeshBasicMaterial({ color: 0x55585f, side: THREE.BackSide })));
+  const panel = (x, y, z, sx, sy, c) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(sx, sy), new THREE.MeshBasicMaterial({ color: c, side: THREE.DoubleSide })); m.position.set(x, y, z); m.lookAt(0, 0, 0); sc.add(m); };
+  panel(-8, 9, 8, 10, 6, 0xffffff); panel(10, 2, 9, 4, 12, 0xdfe6ff); panel(0, 14, 0, 18, 4, 0xffffff); panel(0, -6, 12, 20, 2, 0xb0b0b0);
+  _env = pm.fromScene(sc, 0.04).texture; return _env;
 }
 function alphaMask(src) {
   const c = document.createElement('canvas'); c.width = src.width; c.height = src.height;
@@ -269,7 +370,13 @@ async function build(item, el, index) {
   // 實際尺寸（mm）：卡片 63×88，其他依圖片比例
   let h = item.kind === 'acrylic' ? 62 : item.kind === 'sleeve' ? 120 : 88, w = h * aspect;
   if (item.kind === 'laser') { w = 63; h = 88; }
-  if (item.kind === 'acrylic' || item.kind === 'paper') art = cutWhiteBackground(art);
+  let c_extraTop = 0;
+  if (item.kind === 'acrylic') {
+    item.cutSrc = cutWhiteBackground(toCanvas(im), true);
+    item.printOnly = clearMargin(item.cutSrc);
+    art = item.cutSrc;
+  }
+  if (item.kind === 'paper') art = cutWhiteBackground(art);
   if (item.kind === 'sleeve') art = eraseFoldDashes(art, item.fold ?? 0.5);
   const thick = item.kind === 'acrylic' ? 3 : 0.35;
   const scene = new THREE.Scene();
@@ -319,16 +426,44 @@ async function build(item, el, index) {
     inner.position.set(-w / 2, (yf + h) / 2, 0);
     h = h - yf;
   } else {
+    // 壓克力（照 charm-3d 的做法）：3mm 透明板沿刀模外型擠出；彩色印在「背面」、後面再鋪一層白墨，
+    // 所以正面隔著壓克力看到正常的圖，翻到背面看到白墨；吊孔穿一個開口圈（金屬小圓環）
+    const geo = acrylicOutline(item.cutSrc, w, h);
+    const env = envMap();
+    scene.environment = env;
+    const T = thick;
+    const face = new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0, transmission: 1, thickness: T, ior: 1.49, envMap: env, envMapIntensity: 1.2, specularIntensity: 1, clearcoat: 1, clearcoatRoughness: 0.02 });
+    const edge = new THREE.MeshPhysicalMaterial({ color: 0xf2fffb, roughness: 0.06, transmission: 0.85, thickness: 6, ior: 1.49, envMap: env, envMapIntensity: 1.4 });
+    const bodyGeo = new THREE.ExtrudeGeometry(geo.shape, { depth: T, bevelEnabled: true, bevelThickness: 0.2, bevelSize: 0.2, bevelSegments: 2, curveSegments: 24 });
+    const body = new THREE.Mesh(bodyGeo, [face, edge]);
+    body.position.z = -T / 2; inner.add(body);
     const shape = rect(w, h);
-    const whiteT = tex(alphaMask(art), false);
-    const front = new THREE.Mesh(new THREE.ShapeGeometry(shape), material(printT, whiteT, { w, h, light: L, acrylic: true, gloss: 0.9, sheet: 0 }));
-    front.position.z = thick / 2; inner.add(front);
-    const bg = new THREE.ShapeGeometry(shape); bg.rotateY(Math.PI); bg.translate(w, 0, 0);
-    // 背面幾何已經轉 180°，不要再左右翻：同一個實體位置要對到同一塊白墨，外型才會和正面重合
-    const back = new THREE.Mesh(bg, material(tex(alphaMask(art), true), whiteT, { w, h, light: L, acrylic: true, gloss: 0.9 }));
-    back.position.z = -thick / 2; inner.add(back);
+    const uvGeo = () => { const g = new THREE.ShapeGeometry(shape); const uv = g.attributes.uv, pos = g.attributes.position; for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getX(i) / w, 1 + pos.getY(i) / h); return g; };
+    const printOnlyT = tex(item.printOnly, true);
+    const whiteC = alphaMask(item.printOnly);
+    // 彩色：貼在背面、朝前
+    const print = new THREE.Mesh(uvGeo(), new THREE.MeshStandardMaterial({ map: printOnlyT, alphaTest: 0.5, roughness: 0.6, envMap: env, envMapIntensity: 0.55 }));
+    print.position.z = -T / 2 - 0.02; inner.add(print);
+    // 白墨：在彩色後面，兩面都看得到
+    const white = new THREE.Mesh(uvGeo(), new THREE.MeshStandardMaterial({ map: tex(whiteC, true), alphaTest: 0.5, roughness: 0.7, side: THREE.DoubleSide, envMap: env, envMapIntensity: 0.6 }));
+    white.position.z = -T / 2 - 0.045; inner.add(white);
+    // 開口圈：外徑約 9mm、線徑 1mm，穿過吊孔、靠在孔的上緣，往前傾約 15°
+    if (geo.hole) {
+      const metal = new THREE.MeshPhysicalMaterial({ color: 0xe4e7eb, metalness: 1, roughness: 0.15, envMap: env, envMapIntensity: 1.4, clearcoat: 0.4, clearcoatRoughness: 0.1 });
+      const R = 4.0, r = 0.5, gap = 0.22, PHI = 0.27;
+      const rg = new THREE.TorusGeometry(R, r, 20, 120, Math.PI * 2 - gap);
+      rg.rotateZ(gap / 2 + Math.PI * 0.12);
+      const ring = new THREE.Mesh(rg, metal);
+      const joint = new THREE.Group();
+      joint.position.set(geo.hole.x, -geo.hole.y + geo.hole.r - r, 0); // 孔的上緣
+      ring.rotation.y = -Math.PI / 2;
+      ring.position.set(0, R * Math.cos(PHI), R * Math.sin(PHI) * 0.4);
+      joint.add(ring); inner.add(joint);
+      c_extraTop = joint.position.y + 2 * R + 1;
+    }
   }
 
+  if (c_extraTop > 0) { inner.position.y -= c_extraTop / 2; h = h + c_extraTop; }
   const camera = new THREE.PerspectiveCamera(28, 3 / 4, 1, 5000);
   const c = { el, view, scene, camera, outer, w, h, rx: 0, ry: 0, tx: 0, ty: 0, flip: 0, flipTo: 0, hover: false, phase: index * 1.7 };
   cards.push(c); bind(c); el.classList.add('ready');
