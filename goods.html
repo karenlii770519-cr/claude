@@ -291,7 +291,7 @@ async function build(item, el, index) {
     if (item.back) {
       const bc = toCanvas(await loadImage(item.back));
       const bg = new THREE.ShapeGeometry(shape, 12); bg.rotateY(Math.PI); bg.translate(w, 0, 0);
-      const back = new THREE.Mesh(bg, material(tex(bc, true), null, { w, h, light: L, flipX: w, gloss: 0.2 }));
+      const back = new THREE.Mesh(bg, material(tex(bc, true), null, { w, h, light: L, flipX: w, gloss: 0.03 }));
       back.position.z = -thick / 2 - 0.01; inner.add(back);
     }
   } else if (item.kind === 'paper') {
