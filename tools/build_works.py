@@ -17,7 +17,7 @@ P = [
  ('offerme2-catalog','OFFERME2 公司型錄 中日韓三語','','brand','型錄設計＋三語在地化（正反面）','zh-front-01'),
  ('putien','王品 莆田','','brand','年度宣傳提案、沙茶系列社群素材','social-03'),
  ('matthew-select','馬修嚴選','','brand','Pro+ 乳蛋白系列社群素材','social-03'),
- ('mentholatum','曼秀雷敦','','brand','社群素材','social-01'),
+ ('mentholatum','曼秀雷敦','','brand','社群素材、廣告影片（呵護篇、夏日篇、SUNPLAY 選擇篇）','social-01'),
  ('mobile-new-chapter-video','手遊宣傳・活動影片','2023.11','video','主線新章宣傳影片、IP 遊戲活動影片','01'),
  ('jp-app-shorts','日本市場 影音廣告','2023–2024','video','App 短影音（PayPayフリマ・minimo・Simeji・漫畫 App）、手遊 Coser 綠幕後製、肥鵝健身房網路影音廣告','01'),
 ]
@@ -53,10 +53,13 @@ for slug,title,year,cat,role,cover in P:
 
 e=html.escape
 # 案子要嵌入的 YouTube 影片（影片 ID 或 videoseries 播放清單）
-YT={'jp-app-shorts':{'shorts':['mUrF8nupXoQ','kTQYnctGq4A','7ZHW6XfQZlw','OTpz1Tdvs_A','GbWKnASWdek','kS71RS9CmQE','C-AqChinIdc'],'t':'日本 App 短影音'},'wutheringwaves-ooh':{'v':'bBkcXdV68A8','list':'PLXUtZyKVAWrdpslJY70AyXAFylXmgu2_S','t':'鳴潮 北中南 OOH 影片'}}
+YT={'mentholatum':{'drive':[('1PIQnMS5AcgG11a_tb_RshI-jnzFQBAVK','9/16','呵護篇'),('1T6CXH9U_93kH0NmCaH-cSY9yEvDsU_xG','9/16','夏日篇'),('1WDGfDSqZ1D0Ud4tBJfodEEVxLiQd4441','4/5','SUNPLAY 選擇篇')],'t':'曼秀雷敦 影音'},'jp-app-shorts':{'shorts':['mUrF8nupXoQ','kTQYnctGq4A','7ZHW6XfQZlw','OTpz1Tdvs_A','GbWKnASWdek','kS71RS9CmQE','C-AqChinIdc'],'t':'日本 App 短影音'},'wutheringwaves-ooh':{'v':'bBkcXdV68A8','list':'PLXUtZyKVAWrdpslJY70AyXAFylXmgu2_S','t':'鳴潮 北中南 OOH 影片'}}
 def yt_html(slug):
     y=YT.get(slug)
     if not y: return ''
+    if 'drive' in y:
+        fr=''.join(f'<figure class="ytd"><div class="yts" style="aspect-ratio:{a}"><iframe src="https://drive.google.com/file/d/{i}/preview" title="{e(y["t"])}：{e(n)}" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe></div><figcaption>{e(n)}</figcaption></figure>' for i,a,n in y['drive'])
+        return f'<div class="ytgrid">{fr}</div>\n    '
     if 'shorts' in y:
         fr=''.join(f'<div class="yts"><iframe src="https://www.youtube-nocookie.com/embed/{v}?rel=0" title="{e(y["t"])}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>' for v in y['shorts'])
         return f'<div class="ytgrid">{fr}</div>\n    '
