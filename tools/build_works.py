@@ -57,10 +57,13 @@ for slug,title,year,cat,role,cover in P:
 
 e=html.escape
 # 案子要嵌入的 YouTube 影片（影片 ID 或 videoseries 播放清單）
-YT={'jp-app-shorts':{'v':'GbWKnASWdek','list':'PLXUtZyKVAWrf6GhPt5A9HKgIiGMglzFs6','t':'日本 App 短影音'},'wutheringwaves-ooh':{'v':'bBkcXdV68A8','list':'PLXUtZyKVAWrdpslJY70AyXAFylXmgu2_S','t':'鳴潮 北中南 OOH 影片'}}
+YT={'jp-app-shorts':{'shorts':['mUrF8nupXoQ'],'t':'日本 App 短影音'},'wutheringwaves-ooh':{'v':'bBkcXdV68A8','list':'PLXUtZyKVAWrdpslJY70AyXAFylXmgu2_S','t':'鳴潮 北中南 OOH 影片'}}
 def yt_html(slug):
     y=YT.get(slug)
     if not y: return ''
+    if 'shorts' in y:
+        fr=''.join(f'<div class="yts"><iframe src="https://www.youtube-nocookie.com/embed/{v}?rel=0" title="{e(y["t"])}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>' for v in y['shorts'])
+        return f'<div class="ytgrid">{fr}</div>\n    '
     src=f"https://www.youtube-nocookie.com/embed/{y['v']}?list={y['list']}&rel=0"
     return f'<div class="yt"><iframe src="{src}" title="{e(y["t"])}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>\n    '
 def kind(it):
@@ -76,7 +79,7 @@ for p in data:
       f'<figure class="{kind(it)}{" vid" if it["v"] else ""}"><button type="button" data-i="{i}" aria-label="放大 {e(p["title"])} {e(it["l"])}">'
       f'<img src="{it["t"]}" alt="{e(p["title"])}｜{e(it["l"])}" width="{round(it["w"]*min(1,720/max(it["w"],it["h"])))}" height="{round(it["h"]*min(1,720/max(it["w"],it["h"])))}" loading="lazy" decoding="async"></button></figure>'
       for i,it in enumerate(p['items']))
-    meta=' ・ '.join(x for x in [p['year'],CAT[p['cat']],('YouTube 播放清單' if not p['items'] else f'{len(p["items"])} 支' if p['cat']=='video' else f'{len(p["items"])} 張')] if x)
+    meta=' ・ '.join(x for x in [p['year'],CAT[p['cat']],((f"{len(YT[p['slug']]['shorts'])} 支" if 'shorts' in YT.get(p['slug'],{}) else 'YouTube 播放清單') if not p['items'] else f'{len(p["items"])} 支' if p['cat']=='video' else f'{len(p["items"])} 張')] if x)
     secs.append(f'''  <section class="proj" id="{p['slug']}" data-cat="{p['cat']}" data-full='{e(json.dumps([[it['f'],it['l'],1 if it['v'] else 0] for it in p['items']],ensure_ascii=False))}'>
     <div class="ph-head"><h2>{e(p['title'])}</h2><p class="meta">{e(meta)}</p><p class="role"><b>負責</b>{e(p['role'])}</p></div>
     {yt_html(p['slug'])}<div class="grid">{figs}</div>

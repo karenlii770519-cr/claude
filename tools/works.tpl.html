@@ -52,7 +52,9 @@ a{color:inherit}
 .ph-head h2{margin:0;font-family:var(--round);font-weight:900;font-size:clamp(21px,2.4vw,28px);line-height:1.4}
 .meta{margin:0;font-family:var(--en);font-size:13px;color:var(--muted);letter-spacing:.04em;text-align:right}
 .yt{position:relative;aspect-ratio:16/9;margin:0 0 16px;border-radius:12px;overflow:hidden;background:#000;box-shadow:0 8px 24px rgba(43,37,34,.08)}
-.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.ytgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));gap:16px;margin:0 0 16px}
+.yts{position:relative;aspect-ratio:9/16;border-radius:12px;overflow:hidden;background:#000;box-shadow:0 8px 24px rgba(43,37,34,.08)}
+.yts iframe,.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .role{grid-column:1/-1;margin:4px 0 0;font-size:14px;color:var(--muted)}
 .role b{display:inline-block;font-size:12px;font-weight:700;color:var(--white);background:var(--ink);border-radius:4px;padding:0 7px;margin-right:8px}
 @media (max-width:640px){.ph-head{grid-template-columns:1fr}.meta{text-align:left}}

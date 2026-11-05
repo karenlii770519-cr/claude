@@ -52,7 +52,9 @@ a{color:inherit}
 .ph-head h2{margin:0;font-family:var(--round);font-weight:900;font-size:clamp(21px,2.4vw,28px);line-height:1.4}
 .meta{margin:0;font-family:var(--en);font-size:13px;color:var(--muted);letter-spacing:.04em;text-align:right}
 .yt{position:relative;aspect-ratio:16/9;margin:0 0 16px;border-radius:12px;overflow:hidden;background:#000;box-shadow:0 8px 24px rgba(43,37,34,.08)}
-.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.ytgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));gap:16px;margin:0 0 16px}
+.yts{position:relative;aspect-ratio:9/16;border-radius:12px;overflow:hidden;background:#000;box-shadow:0 8px 24px rgba(43,37,34,.08)}
+.yts iframe,.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .role{grid-column:1/-1;margin:4px 0 0;font-size:14px;color:var(--muted)}
 .role b{display:inline-block;font-size:12px;font-weight:700;color:var(--white);background:var(--ink);border-radius:4px;padding:0 7px;margin-right:8px}
 @media (max-width:640px){.ph-head{grid-template-columns:1fr}.meta{text-align:left}}
@@ -198,8 +200,8 @@ footer{background:var(--ink);color:#CFC8C2;padding:28px 0;font-family:var(--en);
     <div class="grid"><figure class="flat wide vid"><button type="button" data-i="0" aria-label="放大 肥鵝健身房 日本網路廣告 影片"><img src="img/works/fatgoose-gym-jp-ad/thumb/01.webp" alt="肥鵝健身房 日本網路廣告｜影片" width="720" height="405" loading="lazy" decoding="async"></button></figure></div>
   </section>
   <section class="proj" id="jp-app-shorts" data-cat="video" data-full='[]'>
-    <div class="ph-head"><h2>日本 App 短影音（PayPayフリマ・minimo・Simeji）</h2><p class="meta">影片 ・ YouTube 播放清單</p><p class="role"><b>負責</b>日本市場 App 廣告短影音</p></div>
-    <div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/GbWKnASWdek?list=PLXUtZyKVAWrf6GhPt5A9HKgIiGMglzFs6&rel=0" title="日本 App 短影音" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+    <div class="ph-head"><h2>日本 App 短影音（PayPayフリマ・minimo・Simeji）</h2><p class="meta">影片 ・ 1 支</p><p class="role"><b>負責</b>日本市場 App 廣告短影音</p></div>
+    <div class="ytgrid"><div class="yts"><iframe src="https://www.youtube-nocookie.com/embed/mUrF8nupXoQ?rel=0" title="日本 App 短影音" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>
     <div class="grid"></div>
   </section>
   <section class="proj" id="manga-app-shorts" data-cat="video" data-full='[[&quot;img/works/manga-app-shorts/01.mp4&quot;, &quot;影片&quot;, 1]]'>
