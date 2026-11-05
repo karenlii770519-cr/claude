@@ -19,10 +19,7 @@ P = [
  ('matthew-select','馬修嚴選','','brand','Pro+ 乳蛋白系列社群素材','social-03'),
  ('mentholatum','曼秀雷敦','','brand','社群素材','social-01'),
  ('mobile-new-chapter-video','手遊宣傳・活動影片','2023.11','video','主線新章宣傳影片、IP 遊戲活動影片','01'),
- ('jp-coser-greenscreen','日本手遊廣告 Coser 綠幕影片','2023.10','video','綠幕去背後製','01'),
- ('fatgoose-gym-jp-video','肥鵝健身房 日本影音廣告','2024.05','video','日本網路影音廣告','01'),
- ('fatgoose-gym-jp-ad','肥鵝健身房 日本網路廣告','2024.05','video','日本網路廣告','01'),
- ('jp-app-shorts','日本 App 短影音（PayPayフリマ・minimo・Simeji・漫畫 App）','','video','日本市場 App 廣告短影音','01'),
+ ('jp-app-shorts','日本市場 影音廣告','2023–2024','video','App 短影音（PayPayフリマ・minimo・Simeji・漫畫 App）、手遊 Coser 綠幕後製、肥鵝健身房網路影音廣告','01'),
 ]
 CAT = {'game':'遊戲 KV・Banner','brand':'品牌','video':'影片'}
 LBL = [('poster-a3','A3 海報'),('a4-mission','A4 任務說明'),('acrylic-charm','壓克力吊飾'),('clear-card','透卡'),('paper-card','紙卡'),
@@ -40,7 +37,7 @@ from PIL import Image
 data=[]
 for slug,title,year,cat,role,cover in P:
     if cat not in CAT: continue
-    EXTRA={'mobile-new-chapter-video':['ip-game-event-video'],'jp-app-shorts':['manga-app-shorts']}
+    EXTRA={'mobile-new-chapter-video':['ip-game-event-video'],'jp-app-shorts':['manga-app-shorts','jp-coser-greenscreen','fatgoose-gym-jp-video','fatgoose-gym-jp-ad']}
     files=[f for sl in [slug]+EXTRA.get(slug,[]) for f in sorted(glob.glob(f'img/works/{sl}/*.*')) if not f.endswith('.md')]
     items=[]
     for f in files:
