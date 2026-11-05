@@ -57,7 +57,7 @@ for slug,title,year,cat,role,cover in P:
 
 e=html.escape
 # 案子要嵌入的 YouTube 影片（影片 ID 或 videoseries 播放清單）
-YT={'jp-app-shorts':{'shorts':['mUrF8nupXoQ','kTQYnctGq4A','7ZHW6XfQZlw','OTpz1Tdvs_A'],'t':'日本 App 短影音'},'wutheringwaves-ooh':{'v':'bBkcXdV68A8','list':'PLXUtZyKVAWrdpslJY70AyXAFylXmgu2_S','t':'鳴潮 北中南 OOH 影片'}}
+YT={'jp-app-shorts':{'shorts':['mUrF8nupXoQ','kTQYnctGq4A','7ZHW6XfQZlw','OTpz1Tdvs_A','GbWKnASWdek'],'t':'日本 App 短影音'},'wutheringwaves-ooh':{'v':'bBkcXdV68A8','list':'PLXUtZyKVAWrdpslJY70AyXAFylXmgu2_S','t':'鳴潮 北中南 OOH 影片'}}
 def yt_html(slug):
     y=YT.get(slug)
     if not y: return ''
