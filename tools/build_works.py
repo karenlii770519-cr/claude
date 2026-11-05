@@ -55,6 +55,13 @@ for slug,title,year,cat,role,cover in P:
 
 
 e=html.escape
+# 案子要嵌入的 YouTube 影片（影片 ID 或 videoseries 播放清單）
+YT={'wutheringwaves-ooh':{'v':'bBkcXdV68A8','list':'PLXUtZyKVAWrdpslJY70AyXAFylXmgu2_S','t':'鳴潮 北中南 OOH 影片'}}
+def yt_html(slug):
+    y=YT.get(slug)
+    if not y: return ''
+    src=f"https://www.youtube-nocookie.com/embed/{y['v']}?list={y['list']}&rel=0"
+    return f'<div class="yt"><iframe src="{src}" title="{e(y["t"])}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>\n    '
 def kind(it):
     r=it['w']/it['h']
     photo=it['s'].startswith('photo')
@@ -71,7 +78,7 @@ for p in data:
     meta=' ・ '.join(x for x in [p['year'],CAT[p['cat']],(f'{len(p["items"])} 支' if p['cat']=='video' else f'{len(p["items"])} 張')] if x)
     secs.append(f'''  <section class="proj" id="{p['slug']}" data-cat="{p['cat']}" data-full='{e(json.dumps([[it['f'],it['l'],1 if it['v'] else 0] for it in p['items']],ensure_ascii=False))}'>
     <div class="ph-head"><h2>{e(p['title'])}</h2><p class="meta">{e(meta)}</p><p class="role"><b>負責</b>{e(p['role'])}</p></div>
-    <div class="grid">{figs}</div>
+    {yt_html(p['slug'])}<div class="grid">{figs}</div>
   </section>''')
 counts={c:sum(1 for p in data if p['cat']==c) for c in CAT}
 chips='<button type="button" class="on" data-f="all">全部 <i>%d</i></button>'%len(data)+''.join(f'<button type="button" data-f="{c}">{v} <i>{counts[c]}</i></button>' for c,v in CAT.items())
