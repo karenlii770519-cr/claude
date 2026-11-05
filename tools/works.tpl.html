@@ -54,6 +54,9 @@ a{color:inherit}
 .yt{position:relative;aspect-ratio:16/9;margin:0 0 16px;border-radius:12px;overflow:hidden;background:#000;box-shadow:0 8px 24px rgba(43,37,34,.08)}
 .ytgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));gap:16px;margin:0 0 16px}
 .yts{position:relative;aspect-ratio:9/16;border-radius:12px;overflow:hidden;background:#000;box-shadow:0 8px 24px rgba(43,37,34,.08)}
+.ytgrid.drv{grid-template-columns:repeat(3,minmax(0,1fr));max-width:760px}
+.ytgrid.drv .yts{background:#111}
+@media (max-width:640px){.ytgrid.drv{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .ytd{margin:0}.ytd figcaption{margin-top:6px;font-size:13px;color:var(--muted)}
 .yts iframe,.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .role{grid-column:1/-1;margin:4px 0 0;font-size:14px;color:var(--muted)}
