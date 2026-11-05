@@ -2,6 +2,8 @@ import glob, os, json, re, html
 os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..'))
 P = [
  ('civilization-alliance','文明帝國：同盟時代（2K）','2025','game','上市宣傳 KV、代言人視覺、各版位 Banner','kv-01'),
+ ('arknights-katsuya','明日方舟 × 吉豚屋','2025.06','collab','菜單、包店、周邊設計','01'),
+ ('azurlane-katsuya','碧藍航線 × 吉豚屋','2024','collab','海報、包店、周邊設計','01'),
  ('vindictus-nexon','新瑪奇英雄傳（NEXON）','2024／2026','game','改版 KV、改版宣傳素材（角色多方向提案）','kv-01'),
  ('wutheringwaves-ooh','鳴潮 北中南 OOH','2024.06','game','北中南戶外廣告','01'),
  ('racingmaster-jpkr','Racing Master 巔峰極速 日韓 Banner','2024.05','game','日本・韓國市場 Banner','01'),
@@ -21,7 +23,7 @@ P = [
  ('mobile-new-chapter-video','手遊宣傳・活動影片','2023.11','video','主線新章宣傳影片、IP 遊戲活動影片','01'),
  ('jp-app-shorts','日本市場 影音廣告','2023–2024','video','App 短影音（PayPayフリマ・minimo・Simeji・漫畫 App）、手遊 Coser 綠幕後製、肥鵝健身房網路影音廣告','01'),
 ]
-CAT = {'game':'遊戲 KV・Banner','brand':'品牌','video':'影片'}
+CAT = {'collab':'IP 餐飲聯名','game':'遊戲 KV・Banner','brand':'品牌','video':'影片'}
 LBL = [('poster-a3','A3 海報'),('a4-mission','A4 任務說明'),('acrylic-charm','壓克力吊飾'),('clear-card','透卡'),('paper-card','紙卡'),
  ('backing-card','背卡'),('handheld-sign','手拿牌'),('message-board','螢幕留言板'),('message-wall','留言牆'),('staff-pass','工作證'),
  ('mic-sign','麥克風牌'),('table-standee','桌上立牌'),('number-tag','號碼牌'),('guitar-pick','吉他撥片'),('ja-front','日文版 正面'),
