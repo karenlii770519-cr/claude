@@ -2,6 +2,7 @@ import glob, os, json, re, html
 os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..'))
 P = [
  ('civilization-alliance','文明帝國：同盟時代（2K）','2025','game','上市宣傳 KV、代言人視覺、各版位 Banner','kv-01'),
+ ('uwo-origin','大航海時代：起源（KOEI TECMO × LINE GAMES）','2023','game','台灣上市宣傳 Banner：倒數預約、正式上線、巴哈姆特各版位、Steam 新品節','banner-01'),
  ('arknights-katsuya','明日方舟 × 吉豚屋','2025.06','collab','菜單、包店、周邊設計','01'),
  ('azurlane-katsuya','碧藍航線 × 吉豚屋','2024','collab','海報、包店、周邊設計','01'),
  ('vindictus-nexon','新瑪奇英雄傳（NEXON）','2024／2026','game','改版 KV、改版宣傳素材（角色多方向提案）','kv-01'),
